@@ -15,7 +15,7 @@ class AllProducts extends React.Component {
     this.setState({ products: this.props.products });
   }
   render() {
-    const { products } = this.props;
+    const { products } = this.state;
     return (
       <div>
         {products.map((product) => {
