@@ -24,13 +24,13 @@ async function seed() {
 
   // Creating Products
   const products = await Promise.all([
-    Product.create({ name: 'Batman Begins', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
-    Product.create({ name: 'Whiplash', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
-    Product.create({ name: 'The Dark Knight', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
-    Product.create({ name: 'Bunny and the Bull', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
-    Product.create({ name: 'Groundhog Day', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
-    Product.create({ name: 'Godfather', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
-    Product.create({ name: 'Frozen', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
+    Product.create({ name: 'Batman Begins', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
+    Product.create({ name: 'Whiplash', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
+    Product.create({ name: 'The Dark Knight', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
+    Product.create({ name: 'Bunny and the Bull', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
+    Product.create({ name: 'Groundhog Day', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
+    Product.create({ name: 'Godfather', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
+    Product.create({ name: 'Frozen', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
   ])
 
 
