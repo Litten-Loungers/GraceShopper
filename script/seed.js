@@ -1,6 +1,6 @@
 'use strict'
 
-const {db, models: {User} } = require('../server/db')
+const {db, models: {User, Product, Cart} } = require('../server/db')
 
 /**
  * seed - this function clears the database, updates tables to
@@ -14,7 +14,25 @@ async function seed() {
   const users = await Promise.all([
     User.create({ username: 'cody', password: '123' }),
     User.create({ username: 'murphy', password: '123' }),
+    User.create({ username: 'kevin', password: '1234' }),
+    User.create({ username: 'jonathan', password: '12345' }),
+    User.create({ username: 'lucas', password: '123456' }),
+    User.create({ username: 'konstantin', password: '1234567' }),
+    User.create({ username: 'bart', password: '12345678' }),
+    User.create({ username: 'alfred', password: '123456789' }),
   ])
+
+  // Creating Products
+  const products = await Promise.all([
+    Product.create({ name: 'Batman Begins', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
+    Product.create({ name: 'Whiplash', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
+    Product.create({ name: 'The Dark Knight', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
+    Product.create({ name: 'Bunny and the Bull', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
+    Product.create({ name: 'Groundhog Day', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
+    Product.create({ name: 'Godfather', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
+    Product.create({ name: 'Frozen', price: 0, description: 'This is a movie poster', imageURL: '', quantity: 1, available: true}),
+  ])
+
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
