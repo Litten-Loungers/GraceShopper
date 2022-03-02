@@ -54,3 +54,9 @@ Again, not a lot to look at right now but there is an AllProducts component.
 ### Error handling
 
 - What happens if the call to fetch the products fails? Your site should do something graceful for the end user, like displaying some user-friendly message. (In this case it might be as simple as "I'm sorry I can't get the list of products right now, try again later).
+
+## Other thoughts
+
+- Take some time to flesh out more of the wire-frames, they are a good start, but if you flesh them out as you go it should give you a better plan.
+- Take some time to create a document showing your backend routes. This can serve as documentation for your API and it also gives you a blueprint of what routes you need to make.
+- On the wire-frames, add the frontend route (URL) to each wire-frame. What is the URL when I'm looking at this particular view?
