@@ -60,3 +60,4 @@ Again, not a lot to look at right now but there is an AllProducts component.
 - Take some time to flesh out more of the wire-frames, they are a good start, but if you flesh them out as you go it should give you a better plan.
 - Take some time to create a document showing your backend routes. This can serve as documentation for your API and it also gives you a blueprint of what routes you need to make.
 - On the wire-frames, add the frontend route (URL) to each wire-frame. What is the URL when I'm looking at this particular view?
+- Perhaps you should change the database name from grace-shopper to whatever the name of your site is
