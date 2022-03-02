@@ -50,7 +50,7 @@ async function seed() {
     }),
     Product.create({
       name: "Bunny and the Bull",
-      price: 0,
+      price: 100,
       description: "This is a movie poster",
       quantity: 1,
       available: true,
@@ -83,6 +83,7 @@ async function seed() {
   //creating lineitems
   const item1 = await LineItem.create();
   await item1.setOrder(cart);
+  await item1.update({ price: products[3].price });
   await item1.setProduct(products[3]);
 
   console.log(`seeded ${users.length} users`);
