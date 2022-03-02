@@ -11,7 +11,7 @@ const Product = db.define("product", {
     },
   },
   price: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING, // Shouldn't price be a decimal number?
     validate: {
       notEmpty: true,
     },
@@ -21,7 +21,7 @@ const Product = db.define("product", {
     allowNull: false,
   },
   imageURL: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING, // String might not be long enough to hold all image URLs
     defaultValue: 'https://pbs.twimg.com/media/E2AIHRRXMAgyW4b.jpg',
     allowNull: false,
     validate: {
