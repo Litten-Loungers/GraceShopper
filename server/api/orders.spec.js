@@ -14,7 +14,7 @@ describe("Order routes", () => {
     await seed();
   });
 
-  describe.only("/api/orders/", () => {
+  describe("/api/orders/", () => {
     it("GET /api/orders", async () => {
       const res = await request(app).get("/api/orders").expect(200);
 
