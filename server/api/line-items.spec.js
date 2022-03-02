@@ -26,7 +26,7 @@ describe('LineItem routes', () => {
         const res = await request(app)
           .get('/api/line-items/1')
           .expect(200)
-  
+
         expect(res.body).to.be.an('object');
         expect(res.body.price).to.equal(100)
       })
@@ -36,7 +36,7 @@ describe('LineItem routes', () => {
           .post('/api/line-items/')
           .send({price: 200})
           .expect(201)
-  
+
         expect(res.body).to.be.an('object');
         expect(res.body.price).to.equal(200)
       })
@@ -45,7 +45,7 @@ describe('LineItem routes', () => {
       it('DELETE /api/line-items/', async () => {
         const res = await request(app)
           .del('/api/line-items/1')
-          .expect(200)
+          .expect(204)
       })
   }) // end describe('/api/line-items')
 }) // end describe('order routes')

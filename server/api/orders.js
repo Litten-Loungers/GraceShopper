@@ -33,7 +33,7 @@ router.delete('/:orderId', async (req, res, next) => {
         id: id,
       },
     });
-    res.send(200);
+    res.send(204);
   } catch (error) {
     next(error);
   }
