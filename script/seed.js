@@ -1,47 +1,98 @@
-'use strict'
+"use strict";
 
-const {db, models: {User, Product, Cart} } = require('../server/db')
+const {
+  db,
+  models: { User, Product, Order, LineItem },
+} = require("../server/db");
 
 /**
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
  */
 async function seed() {
-  await db.sync({ force: true }) // clears db and matches models to tables
-  console.log('db synced!')
+  await db.sync({ force: true }); // clears db and matches models to tables
+  console.log("db synced!");
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ username: 'cody', password: '123' }),
-    User.create({ username: 'murphy', password: '123' }),
-    User.create({ username: 'kevin', password: '1234' }),
-    User.create({ username: 'jonathan', password: '12345' }),
-    User.create({ username: 'lucas', password: '123456' }),
-    User.create({ username: 'konstantin', password: '1234567' }),
-    User.create({ username: 'bart', password: '12345678' }),
-    User.create({ username: 'alfred', password: '123456789' }),
-  ])
+    User.create({ username: "cody", password: "123" }),
+    User.create({ username: "murphy", password: "123" }),
+    User.create({ username: "kevin", password: "1234" }),
+    User.create({ username: "jonathan", password: "12345" }),
+    User.create({ username: "lucas", password: "123456" }),
+    User.create({ username: "konstantin", password: "1234567" }),
+    User.create({ username: "bart", password: "12345678" }),
+    User.create({ username: "alfred", password: "123456789" }),
+  ]);
 
   // Creating Products
   const products = await Promise.all([
-    Product.create({ name: 'Batman Begins', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
-    Product.create({ name: 'Whiplash', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
-    Product.create({ name: 'The Dark Knight', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
-    Product.create({ name: 'Bunny and the Bull', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
-    Product.create({ name: 'Groundhog Day', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
-    Product.create({ name: 'Godfather', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
-    Product.create({ name: 'Frozen', price: 0, description: 'This is a movie poster', quantity: 1, available: true}),
-  ])
+    Product.create({
+      name: "Batman Begins",
+      price: 0,
+      description: "This is a movie poster",
+      quantity: 1,
+      available: true,
+    }),
+    Product.create({
+      name: "Whiplash",
+      price: 0,
+      description: "This is a movie poster",
+      quantity: 1,
+      available: true,
+    }),
+    Product.create({
+      name: "The Dark Knight",
+      price: 0,
+      description: "This is a movie poster",
+      quantity: 1,
+      available: true,
+    }),
+    Product.create({
+      name: "Bunny and the Bull",
+      price: 0,
+      description: "This is a movie poster",
+      quantity: 1,
+      available: true,
+    }),
+    Product.create({
+      name: "Groundhog Day",
+      price: 0,
+      description: "This is a movie poster",
+      quantity: 1,
+      available: true,
+    }),
+    Product.create({
+      name: "Godfather",
+      price: 0,
+      description: "This is a movie poster",
+      quantity: 1,
+      available: true,
+    }),
+    Product.create({
+      name: "Frozen",
+      price: 0,
+      description: "This is a movie poster",
+      quantity: 1,
+      available: true,
+    }),
+  ]);
+  //creating order
+  const cart = await Order.create();
+  await users[0].addOrder(cart);
+  //creating lineitems
+  const item1 = await LineItem.create();
+  await item1.setOrder(cart);
+  await item1.setProduct(products[3]);
 
-
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+  console.log(`seeded ${users.length} users`);
+  console.log(`seeded successfully`);
   return {
     users: {
       cody: users[0],
-      murphy: users[1]
-    }
-  }
+      murphy: users[1],
+    },
+  };
 }
 
 /*
@@ -50,16 +101,16 @@ async function seed() {
  The `seed` function is concerned only with modifying the database.
 */
 async function runSeed() {
-  console.log('seeding...')
+  console.log("seeding...");
   try {
-    await seed()
+    await seed();
   } catch (err) {
-    console.error(err)
-    process.exitCode = 1
+    console.error(err);
+    process.exitCode = 1;
   } finally {
-    console.log('closing db connection')
-    await db.close()
-    console.log('db connection closed')
+    console.log("closing db connection");
+    await db.close();
+    console.log("db connection closed");
   }
 }
 
@@ -69,8 +120,8 @@ async function runSeed() {
   any errors that might occur inside of `seed`.
 */
 if (module === require.main) {
-  runSeed()
+  runSeed();
 }
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
-module.exports = seed
+module.exports = seed;
