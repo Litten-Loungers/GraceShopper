@@ -19,7 +19,7 @@ class AllProducts extends React.Component {
     console.log(this.state);
     const { products } = this.state;
     return (
-      <div>
+      <div className="all-products">
         {products
           .sort((x, y) => {
             return x.id - y.id;
