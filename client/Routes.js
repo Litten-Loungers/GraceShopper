@@ -6,6 +6,7 @@ import Home from './components/Home';
 import { me } from './store';
 import AllProducts from './components/AllProducts';
 import SingleProduct from './components/SingleProduct';
+import Sidebar from './components/Sidebar';
 import CartWidget from './components/CartWidget';
 
 class Routes extends Component {
@@ -17,7 +18,8 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
 
     return (
-      <div>
+      <div className="routes">
+        <Sidebar />
         {isLoggedIn ? (
           <Switch>
             <Route path="/testcartwidget" component={CartWidget} />

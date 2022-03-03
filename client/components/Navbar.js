@@ -6,8 +6,8 @@ import CartWidget from './CartWidget';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <div>
-    <h1>Grace-shopper</h1>
     <nav>
+      <h1>GRACE SHOPPER</h1>
       {isLoggedIn ? (
         <div>
           <Link to="/home">Home</Link>
@@ -23,7 +23,6 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         </div>
       )}
     </nav>
-    <hr />
   </div>
 );
 
