@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
 const {
   db,
   models: { User, Product, Order, LineItem },
-} = require("../server/db");
+} = require('../server/db');
 
 /**
  * seed - this function clears the database, updates tables to
@@ -11,68 +11,68 @@ const {
  */
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
-  console.log("db synced!");
+  console.log('db synced!');
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ username: "cody", password: "123" }),
-    User.create({ username: "murphy", password: "123" }),
-    User.create({ username: "kevin", password: "1234" }),
-    User.create({ username: "jonathan", password: "12345" }),
-    User.create({ username: "lucas", password: "123456" }),
-    User.create({ username: "konstantin", password: "1234567" }),
-    User.create({ username: "bart", password: "12345678" }),
-    User.create({ username: "alfred", password: "123456789" }),
+    User.create({ username: 'cody', password: '123' }),
+    User.create({ username: 'murphy', password: '123' }),
+    User.create({ username: 'kevin', password: '1234' }),
+    User.create({ username: 'jonathan', password: '12345' }),
+    User.create({ username: 'lucas', password: '123456' }),
+    User.create({ username: 'konstantin', password: '1234567' }),
+    User.create({ username: 'bart', password: '12345678' }),
+    User.create({ username: 'alfred', password: '123456789' }),
   ]);
 
   // Creating Products
   const products = await Promise.all([
     Product.create({
-      name: "Batman Begins",
+      name: 'Batman Begins',
       price: 0,
-      description: "This is a movie poster",
+      description: 'This is a movie poster',
       quantity: 1,
       available: true,
     }),
     Product.create({
-      name: "Whiplash",
+      name: 'Whiplash',
       price: 0,
-      description: "This is a movie poster",
+      description: 'This is a movie poster',
       quantity: 1,
       available: true,
     }),
     Product.create({
-      name: "The Dark Knight",
+      name: 'The Dark Knight',
       price: 0,
-      description: "This is a movie poster",
+      description: 'This is a movie poster',
       quantity: 1,
       available: true,
     }),
     Product.create({
-      name: "Bunny and the Bull",
+      name: 'Bunny and the Bull',
       price: 100,
-      description: "This is a movie poster",
+      description: 'This is a movie poster',
       quantity: 1,
       available: true,
     }),
     Product.create({
-      name: "Groundhog Day",
+      name: 'Groundhog Day',
       price: 0,
-      description: "This is a movie poster",
+      description: 'This is a movie poster',
       quantity: 1,
       available: true,
     }),
     Product.create({
-      name: "Godfather",
+      name: 'Godfather',
       price: 0,
-      description: "This is a movie poster",
+      description: 'This is a movie poster',
       quantity: 1,
       available: true,
     }),
     Product.create({
-      name: "Frozen",
+      name: 'Frozen',
       price: 0,
-      description: "This is a movie poster",
+      description: 'This is a movie poster',
       quantity: 1,
       available: true,
     }),
@@ -102,16 +102,16 @@ async function seed() {
  The `seed` function is concerned only with modifying the database.
 */
 async function runSeed() {
-  console.log("seeding...");
+  console.log('seeding...');
   try {
     await seed();
   } catch (err) {
     console.error(err);
     process.exitCode = 1;
   } finally {
-    console.log("closing db connection");
+    console.log('closing db connection');
     await db.close();
-    console.log("db connection closed");
+    console.log('db connection closed');
   }
 }
 
