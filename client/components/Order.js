@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import auth from '../store/auth';
-import { fetchCartItems } from '../store';
+import { fetchCartItems, addItemToCart } from '../store';
 import { Link } from 'react-router-dom';
 
 class Order extends React.Component {
@@ -26,9 +26,31 @@ class Order extends React.Component {
           return (
             <div key={`id_${idx}`}>
               <p>ORDER ID: {item.orderId}</p>
-              <p>ITEM QUANTITY: {item.quantity}</p>
+              <p>ITEM QUANTITY: {item.quantity}</p>{' '}
+              <button type="button" onClick={() => {}}>
+                -
+              </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  await this.props.addItemToCart(
+                    this.props.userId,
+                    item.product.id
+                  );
+                  this.setState((prevState) => ({
+                    cartItems: prevState.cartItems.map((lineItem) => {
+                      if (lineItem.id === item.id) {
+                        return { ...lineItem, quantity: lineItem.quantity + 1 };
+                      } else {
+                        return lineItem;
+                      }
+                    }),
+                  }));
+                }}
+              >
+                +
+              </button>
               <p>PRICE: {item.price}</p>
-
               <Link to={`/products/${item.product.id}`}>
                 <p>Name: {item.product.name}</p>
               </Link>
@@ -52,6 +74,8 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     fetchCartItems: (id) => dispatch(fetchCartItems(id)),
+    addItemToCart: (userId, productId) =>
+      dispatch(addItemToCart(userId, productId)),
   };
 };
 
