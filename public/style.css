@@ -10,7 +10,13 @@ label {
   display: block;
 }
 nav {
-  background-color: red;
+  background-color: #be0000;
+  height: 8em;
+  width: 100vw;
+
+  border: 2px solid black;
+  padding: 0.5em;
+  margin-bottom: 0.6em;
 }
 
 nav h1 {
@@ -26,11 +32,20 @@ form div {
   margin: 1em;
   display: inline-block;
 }
-
-.sidebar {
-  flex-direction: column;
-}
-
 .routes {
   display: flex;
+}
+
+.sidebar {
+  height: 100vh;
+  border: 2px solid black;
+  padding: 1em;
+  margin-right: 0.5em;
+
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+
+  background-color: #be0000;
 }
