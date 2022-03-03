@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fetchCartItems } from '../store';
 
 class CartWidget extends React.Component {
@@ -17,7 +18,11 @@ class CartWidget extends React.Component {
   }
 
   render() {
-    return <div>Items in cart: {this.state.cartItems.length}</div>;
+    return (
+      <Link to="/cart">
+        <div>Items in cart: {this.state.cartItems.length}</div>
+      </Link>
+    );
   }
 }
 
