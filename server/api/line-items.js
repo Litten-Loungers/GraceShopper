@@ -50,7 +50,7 @@ router.get("/:lineItemId", async (req, res, next) => {
 });
 
 //GET a user's cart
-router.get("/user/:userId", async (req, res, next) => {
+router.get("/user/:userId/cart", async (req, res, next) => {
   try {
     const { userId } = req.params
     const order = await Order.findOne({ where: {
@@ -58,7 +58,7 @@ router.get("/user/:userId", async (req, res, next) => {
       status: "NEW"
     }})
     const lineItems = await LineItem.findAll({ where: {
-      orderId = order.id
+      orderId: order.id
     }})
     res.json(lineItems)
   } catch (err) {

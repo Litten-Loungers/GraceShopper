@@ -17,17 +17,17 @@ const setCartItems = (items) => ({
 /**
  * THUNK CREATORS
  */
-export const fetchCartItems = () => {
+export const fetchCartItems = (id) => {
   return async (dispatch) => {
-    const { data } = await axios.get('/api/products');
-    dispatch(setProducts(data));
+    const { data } = await axios.get(`/api/line-items/user/${id}/cart`);
+    dispatch(setCartItems(data));
   };
 };
 
-export default function products(state = [], action) {
+export default function cartItems(state = [], action) {
   switch (action.type) {
-    case SET_PRODUCTS:
-      return action.products;
+    case SET_CART_ITEMS:
+      return action.items;
     default:
       return state;
   }
