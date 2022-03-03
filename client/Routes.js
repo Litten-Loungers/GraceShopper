@@ -18,7 +18,7 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
 
     return (
-      <div className="routes">
+      <div className='routes'>
         <Sidebar />
         {isLoggedIn ? (
           <Switch>
@@ -29,8 +29,12 @@ class Routes extends Component {
           </Switch>
         ) : (
           <Switch>
-            <Route path='/products/:productId' component={SingleProduct} />
-            <Route path='/products' component={AllProducts} />
+            <Route
+              exact
+              path='/products/:productId'
+              component={SingleProduct}
+            />
+            <Route exact path='/products' component={AllProducts} />
             <Route path='/' exact component={Login} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />

@@ -17,7 +17,6 @@ class SingleProduct extends React.Component {
   }
 
   async componentDidMount() {
-    //update product ID to retreive the product
     await this.props.fetchProduct(this.props.match.params.productId);
     this.setState({ ...this.props.singleProduct });
   }
