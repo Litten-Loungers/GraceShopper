@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const res = require('express/lib/response');
 const {
-  models: { LineItem, Order },
+  models: { LineItem, Order, Product },
 } = require('../db');
 module.exports = router;
 
@@ -69,6 +69,30 @@ router.get('/user/:userId/cart', async (req, res, next) => {
     } else {
       res.json([]);
     }
+  } catch (err) {
+    next(err);
+  }
+});
+
+//POST a new item to cart
+router.post('/user/:userId/product/:productId', async (req, res, next) => {
+  try {
+    const { userId, productId } = req.params;
+    const product = await Product.findByPk(productId);
+    const [cart, cartCreated] = await Order.findOrCreate({
+      where: {
+        userId,
+        status: 'NEW',
+      },
+    });
+    const [item, created] = await LineItem.findOrCreate({
+      where: {
+        orderId: cart.id,
+        productId,
+      },
+    });
+    await item.update({ quantity: item.quantity + 1, price: product.price });
+    res.json([item, created]);
   } catch (err) {
     next(err);
   }

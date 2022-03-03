@@ -29,21 +29,21 @@ async function seed() {
   const products = await Promise.all([
     Product.create({
       name: 'Batman Begins',
-      price: 0,
+      price: 100,
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
     }),
     Product.create({
       name: 'Whiplash',
-      price: 0,
+      price: 20,
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
     }),
     Product.create({
       name: 'The Dark Knight',
-      price: 0,
+      price: 1000,
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
@@ -57,21 +57,21 @@ async function seed() {
     }),
     Product.create({
       name: 'Groundhog Day',
-      price: 0,
+      price: 10,
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
     }),
     Product.create({
       name: 'Godfather',
-      price: 0,
+      price: 90,
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
     }),
     Product.create({
       name: 'Frozen',
-      price: 0,
+      price: 40,
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
@@ -83,7 +83,7 @@ async function seed() {
   //creating lineitems
   const item1 = await LineItem.create();
   await item1.setOrder(cart);
-  await item1.update({ price: products[3].price });
+  await item1.update({ price: products[3].price, quantity: 1 });
   await item1.setProduct(products[3]);
 
   console.log(`seeded ${users.length} users`);
