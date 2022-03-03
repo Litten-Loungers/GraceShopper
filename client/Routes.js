@@ -24,16 +24,13 @@ class Routes extends Component {
           <Switch>
             <Route path='/testcartwidget' component={CartWidget} />
             <Route path='/home' component={Home} />
+            <Route path='/products/:productId' component={SingleProduct} />
             <Route path='/products' component={AllProducts} />
             <Redirect to='/home' />
           </Switch>
         ) : (
           <Switch>
-            <Route
-              exact
-              path='/products/:productId'
-              component={SingleProduct}
-            />
+            <Route path='/products/:productId' component={SingleProduct} />
             <Route exact path='/products' component={AllProducts} />
             <Route path='/' exact component={Login} />
             <Route path='/login' component={Login} />
