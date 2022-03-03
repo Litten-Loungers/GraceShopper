@@ -14,9 +14,10 @@ const setCartItems = (items) => ({
   type: SET_CART_ITEMS,
   items,
 });
-const addItem = (item) => ({
+const addItem = (item, created) => ({
   type: ADD_ITEM_TO_CART,
   item,
+  created,
 });
 
 /**
@@ -34,7 +35,7 @@ export const addItemToCart = (userId, productId) => {
     const { data } = await axios.post(
       `/api/line-items/user/${userId}/product/${productId}`
     );
-    dispatch(addItem(data));
+    dispatch(addItem(data[0], data[1]));
   };
 };
 
@@ -43,7 +44,15 @@ export default function cartItems(state = [], action) {
     case SET_CART_ITEMS:
       return action.items;
     case ADD_ITEM_TO_CART:
-      return [...state, action.item];
+      if (action.created) {
+        return [...state, action.item];
+      } else {
+        return state.map((item) => {
+          if (item.id === action.item.id) {
+            item.quantity++;
+          }
+        });
+      }
     default:
       return state;
   }

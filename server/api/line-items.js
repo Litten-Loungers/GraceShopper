@@ -73,3 +73,28 @@ router.get('/user/:userId/cart', async (req, res, next) => {
     next(err);
   }
 });
+
+//POST a new item to cart
+router.post('/user/:userId/product/:productId', async (req, res, next) => {
+  try {
+    const { userId, productId } = req.params;
+    const [cart, created] = await Order.findOrCreate({
+      where: {
+        userId,
+        status: 'NEW',
+      },
+    });
+    const item = await LineItem.findOrCreate({
+      where: {
+        userId,
+        productId,
+      },
+    });
+    if (!created) {
+      item.quantity++;
+    }
+    res.json([item, created]);
+  } catch (err) {
+    next(err);
+  }
+});
