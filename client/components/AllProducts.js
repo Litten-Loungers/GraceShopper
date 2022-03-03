@@ -1,6 +1,6 @@
-import React from "react";
-import { connect } from "react-redux";
-import { fetchProducts } from "../store";
+import React from 'react';
+import { connect } from 'react-redux';
+import { fetchProducts } from '../store';
 
 class AllProducts extends React.Component {
   constructor() {
@@ -18,18 +18,24 @@ class AllProducts extends React.Component {
     const { products } = this.state;
     return (
       <div>
-        {products.map((product) => {
-          return (
-            <div key={product.id}>
-              <h2>{product.name}</h2>
-              <img src={product.imageURL} />
-              <p>{product.price}</p>
-              <p>{product.description}</p>
-              <p>{product.quantity}</p>
-              <p>{product.available}</p>
-            </div>
-          );
-        })}
+        {products
+          .sort((x, y) => {
+            return x.id - y.id;
+          })
+          .map((product) => {
+            return (
+              <div key={product.id}>
+                <h2>Name: {product.name}</h2>
+                <img src={product.imageURL} />
+                <p>Price: {product.price}</p>
+                <p>{product.description}</p>
+                <p>Quantity: {product.quantity}</p>
+                {product.available ? (
+                  <button type="button">Add To Cart</button>
+                ) : null}
+              </div>
+            );
+          })}
       </div>
     );
   }
