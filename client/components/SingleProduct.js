@@ -25,8 +25,10 @@ class SingleProduct extends React.Component {
       this.state;
     return (
       <div>
-        <img src={imageURL} />
+        <h3>Selected poster:</h3>
+        <hr />
         <h1>{name}</h1>
+        <img src={imageURL} />
         <p>{description}</p>
         <p>${price}</p>
         <p>
@@ -36,6 +38,7 @@ class SingleProduct extends React.Component {
         </p>
         <p>{quantity} left in stock</p>
         {available ? <button type='button'>Add To Cart</button> : null}
+        <hr />
       </div>
     );
   }
