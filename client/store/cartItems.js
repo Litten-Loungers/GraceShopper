@@ -6,6 +6,7 @@ import history from '../history';
  */
 const SET_CART_ITEMS = 'SET_CART_ITEMS';
 const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
+const DELETE_ITEM = 'DELETE_ITEM';
 
 /**
  * ACTION CREATORS
@@ -18,6 +19,10 @@ const addItem = (item, created) => ({
   type: ADD_ITEM_TO_CART,
   item,
   created,
+});
+const deleteItem = (id) => ({
+  type: DELETE_ITEM,
+  id,
 });
 
 /**
@@ -39,6 +44,13 @@ export const addItemToCart = (userId, productId) => {
   };
 };
 
+export const destroyItem = (id) => {
+  return async (dispatch) => {
+    await axios.delete(`/api/line-items/${id}`);
+    dispatch(deleteItem(id));
+  };
+};
+
 export default function cartItems(state = [], action) {
   switch (action.type) {
     case SET_CART_ITEMS:
@@ -55,6 +67,8 @@ export default function cartItems(state = [], action) {
           }
         });
       }
+    case DELETE_ITEM:
+      return state.filter((item) => item.id !== action.id);
     default:
       return state;
   }

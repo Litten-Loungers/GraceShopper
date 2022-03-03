@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import auth from '../store/auth';
-import { fetchCartItems, addItemToCart } from '../store';
+import { fetchCartItems, addItemToCart, destroyItem } from '../store';
 import { Link } from 'react-router-dom';
 
 class Order extends React.Component {
@@ -50,6 +50,19 @@ class Order extends React.Component {
               >
                 +
               </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  await this.props.destroyItem(item.id);
+                  this.setState((prevState) => ({
+                    cartItems: prevState.cartItems.filter(
+                      (lineItem) => lineItem.id !== item.id
+                    ),
+                  }));
+                }}
+              >
+                Remove From Cart
+              </button>
               <p>PRICE: {item.price}</p>
               <Link to={`/products/${item.product.id}`}>
                 <p>Name: {item.product.name}</p>
@@ -76,6 +89,7 @@ const mapDispatch = (dispatch) => {
     fetchCartItems: (id) => dispatch(fetchCartItems(id)),
     addItemToCart: (userId, productId) =>
       dispatch(addItemToCart(userId, productId)),
+    destroyItem: (id) => dispatch(destroyItem(id)),
   };
 };
 
