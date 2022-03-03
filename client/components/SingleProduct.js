@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchProduct } from '../store';
+import { fetchProduct, addItemToCart } from '../store';
 
 class SingleProduct extends React.Component {
   constructor(props) {
     super(props);
     this.initialState = {
+      id: 0,
       name: '',
       price: 0,
       description: '',
@@ -37,7 +38,16 @@ class SingleProduct extends React.Component {
             : 'this item is currently unavailable'}
         </p>
         <p>{quantity} left in stock</p>
-        {available ? <button type='button'>Add To Cart</button> : null}
+        {available ? (
+          <button
+            onClick={async () => {
+              await this.props.addItemToCart(this.props.userId, this.state.id);
+            }}
+            type="button"
+          >
+            Add To Cart
+          </button>
+        ) : null}
         <hr />
       </div>
     );
@@ -47,12 +57,15 @@ class SingleProduct extends React.Component {
 const mapState = (state) => {
   return {
     singleProduct: state.singleProduct,
+    userId: state.auth.id,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
     fetchProduct: (id) => dispatch(fetchProduct(id)),
+    addItemToCart: (userId, productId) =>
+      dispatch(addItemToCart(userId, productId)),
   };
 };
 
