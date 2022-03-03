@@ -1,12 +1,12 @@
-const router = require("express").Router();
-const res = require("express/lib/response");
+const router = require('express').Router();
+const res = require('express/lib/response');
 const {
   models: { LineItem, Order },
-} = require("../db");
+} = require('../db');
 module.exports = router;
 
 //GET all lineItems
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const lineItems = await LineItem.findAll();
     res.json(lineItems);
@@ -16,7 +16,7 @@ router.get("/", async (req, res, next) => {
 });
 
 //POST single lineItem
-router.post("/", async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   try {
     res.status(201).send(await LineItem.create(req.body));
   } catch (error) {
@@ -25,7 +25,7 @@ router.post("/", async (req, res, next) => {
 });
 
 //DELETE single lineItem
-router.delete("/:lineItemId", async (req, res, next) => {
+router.delete('/:lineItemId', async (req, res, next) => {
   const id = Number(req.params.lineItemId);
   try {
     await LineItem.destroy({
@@ -40,7 +40,7 @@ router.delete("/:lineItemId", async (req, res, next) => {
 });
 
 //GET single lineItem
-router.get("/:lineItemId", async (req, res, next) => {
+router.get('/:lineItemId', async (req, res, next) => {
   try {
     const lineItem = await LineItem.findByPk(req.params.lineItemId);
     res.json(lineItem);
@@ -50,18 +50,26 @@ router.get("/:lineItemId", async (req, res, next) => {
 });
 
 //GET a user's cart
-router.get("/user/:userId/cart", async (req, res, next) => {
+router.get('/user/:userId/cart', async (req, res, next) => {
   try {
-    const { userId } = req.params
-    const order = await Order.findOne({ where: {
-      userId,
-      status: "NEW"
-    }})
-    const lineItems = await LineItem.findAll({ where: {
-      orderId: order.id
-    }})
-    res.json(lineItems)
+    const { userId } = req.params;
+    const order = await Order.findOne({
+      where: {
+        userId,
+        status: 'NEW',
+      },
+    });
+    if (order) {
+      const lineItems = await LineItem.findAll({
+        where: {
+          orderId: order.id,
+        },
+      });
+      res.json(lineItems);
+    } else {
+      res.json([]);
+    }
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
