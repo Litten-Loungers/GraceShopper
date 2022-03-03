@@ -78,15 +78,15 @@ router.get('/user/:userId/cart', async (req, res, next) => {
 router.post('/user/:userId/product/:productId', async (req, res, next) => {
   try {
     const { userId, productId } = req.params;
-    const [cart, created] = await Order.findOrCreate({
+    const [cart, cartCreated] = await Order.findOrCreate({
       where: {
         userId,
         status: 'NEW',
       },
     });
-    const item = await LineItem.findOrCreate({
+    const [item, created] = await LineItem.findOrCreate({
       where: {
-        userId,
+        orderId: cart.id,
         productId,
       },
     });

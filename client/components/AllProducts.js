@@ -7,15 +7,16 @@ class AllProducts extends React.Component {
     super();
     this.initialState = {
       products: [],
-      id: 0,
     };
     this.state = { ...this.initialState };
   }
   async componentDidMount() {
     await this.props.fetchProducts();
-    this.setState({ products: this.props.products, id: this.props.userId });
+    this.setState({ products: this.props.products });
   }
   render() {
+    console.log(this.props.userId);
+    console.log(this.state);
     const { products } = this.state;
     return (
       <div>
@@ -34,10 +35,12 @@ class AllProducts extends React.Component {
                 {product.available ? (
                   <button
                     type="button"
-                    onClick={this.props.addItemToCart(
-                      this.state.id,
-                      product.id
-                    )}
+                    onClick={async () => {
+                      await this.props.addItemToCart(
+                        this.props.userId,
+                        product.id
+                      );
+                    }}
                   >
                     Add To Cart
                   </button>
