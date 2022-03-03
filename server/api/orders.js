@@ -1,34 +1,34 @@
 const router = require('express').Router();
 const res = require('express/lib/response');
 const {
-  models: { Product },
+  models: { Order },
 } = require('../db');
 module.exports = router;
 
-//GET all products
+//GET all orders
 router.get('/', async (req, res, next) => {
   try {
-    const products = await Product.findAll();
-    res.json(products);
+    const orders = await Order.findAll();
+    res.json(orders);
   } catch (err) {
     next(err);
   }
 });
 
-//POST single product
+//POST single order
 router.post('/', async (req, res, next) => {
   try {
-    res.status(201).send(await Product.create(req.body));
+    res.status(201).send(await Order.create(req.body));
   } catch (error) {
     next(error);
   }
 });
 
-//DELETE single product
-router.delete('/:productId', async (req, res, next) => {
-  const id = Number(req.params.productId);
+//DELETE single order
+router.delete('/:orderId', async (req, res, next) => {
+  const id = Number(req.params.orderId);
   try {
-    await Product.destroy({
+    await Order.destroy({
       where: {
         id: id,
       },
@@ -39,11 +39,11 @@ router.delete('/:productId', async (req, res, next) => {
   }
 });
 
-//GET single product
-router.get('/:productId', async (req, res, next) => {
+//GET single order
+router.get('/:orderId', async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.productId);
-    res.json(product);
+    const order = await Order.findByPk(req.params.orderId);
+    res.json(order);
   } catch (err) {
     next(err);
   }
