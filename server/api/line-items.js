@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const res = require('express/lib/response');
 const {
-  models: { LineItem, Order },
+  models: { LineItem, Order, Product },
 } = require('../db');
 module.exports = router;
 
@@ -78,6 +78,7 @@ router.get('/user/:userId/cart', async (req, res, next) => {
 router.post('/user/:userId/product/:productId', async (req, res, next) => {
   try {
     const { userId, productId } = req.params;
+    const product = await Product.findByPk(productId);
     const [cart, cartCreated] = await Order.findOrCreate({
       where: {
         userId,
@@ -90,9 +91,7 @@ router.post('/user/:userId/product/:productId', async (req, res, next) => {
         productId,
       },
     });
-    if (!created) {
-      item.quantity++;
-    }
+    await item.update({ quantity: item.quantity + 1, price: product.price });
     res.json([item, created]);
   } catch (err) {
     next(err);

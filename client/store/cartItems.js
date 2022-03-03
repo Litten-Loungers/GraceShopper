@@ -49,7 +49,9 @@ export default function cartItems(state = [], action) {
       } else {
         return state.map((item) => {
           if (item.id === action.item.id) {
-            item.quantity++;
+            return { ...item, quantity: item.quantity + 1 };
+          } else {
+            return item;
           }
         });
       }
