@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const res = require("express/lib/response");
 const {
-  models: { LineItem },
+  models: { LineItem, Order },
 } = require("../db");
 module.exports = router;
 
@@ -48,3 +48,20 @@ router.get("/:lineItemId", async (req, res, next) => {
     next(err);
   }
 });
+
+//GET a user's cart
+router.get("/user/:userId", async (req, res, next) => {
+  try {
+    const { userId } = req.params
+    const order = await Order.findOne({ where: {
+      userId,
+      status: "NEW"
+    }})
+    const lineItems = await LineItem.findAll({ where: {
+      orderId = order.id
+    }})
+    res.json(lineItems)
+  } catch (err) {
+    next(err)
+  }
+})

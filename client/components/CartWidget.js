@@ -13,11 +13,11 @@ class CartWidget extends React.Component {
 
   async componentDidMount() {
     await this.props.fetchCartItems();
-    this.setState({ products: this.props.products });
+    this.setState({ cartItems: this.props.cartItems });
   }
 
   render() {
-    return <div>Items in cart: {this.props.cartItems.length}</div>;
+    return <div>Items in cart: {this.state.cartItems.length}</div>;
   }
 }
 
@@ -34,4 +34,4 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapState)(CartWidget);
+export default connect(mapState, mapDispatch)(CartWidget);
