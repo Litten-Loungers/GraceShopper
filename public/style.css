@@ -46,7 +46,7 @@ form div {
   color: blue;
   display: flex;
   flex-direction: row;
-  column-gap: 6em;
+  column-gap: 7em;
   height: 120px;
   width: 700px;
   /* flex-direction: column; */
@@ -56,9 +56,20 @@ form div {
   margin-left: 1em
 }
 
+.movieName{
+  width: 20em;
+}
+
+.button{
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+}
+
 .singleProduct > img{
-  height: 10vh;
-  width: 10vw;
+  height: 90%;
+  margin: auto;
+  margin-left: 9px;
 }
 
 .routes {

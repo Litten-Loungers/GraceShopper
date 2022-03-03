@@ -25,14 +25,14 @@ class AllProducts extends React.Component {
           .map((product) => {
             return (
               <div className='singleProduct' key={product.id}>
-                <img src={product.imageURL} />
-                <p>Name: {product.name}</p>
-                <p>Price: {product.price}</p>
+                <img className='moviePicture' src={product.imageURL} />
+                <p className='movieName'>Name: {product.name}</p>
+                <div className='button'><p>Price: {product.price}</p>
                 {/* <p>{product.description}</p>
                 <p>Quantity: {product.quantity}</p> */}
                 {product.available ? (
                   <button type='button'>Add To Cart</button>
-                ) : null}
+                ) : null}</div>
               </div>
             );
           })}
