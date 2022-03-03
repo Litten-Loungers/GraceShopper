@@ -17,21 +17,21 @@ class AllProducts extends React.Component {
   render() {
     const { products } = this.state;
     return (
-      <div className="all-products">
+      <div className='all-products'>
         {products
           .sort((x, y) => {
             return x.id - y.id;
           })
           .map((product) => {
             return (
-              <div key={product.id}>
-                <h2>Name: {product.name}</h2>
+              <div className='singleProduct' key={product.id}>
                 <img src={product.imageURL} />
+                <p>Name: {product.name}</p>
                 <p>Price: {product.price}</p>
-                <p>{product.description}</p>
-                <p>Quantity: {product.quantity}</p>
+                {/* <p>{product.description}</p>
+                <p>Quantity: {product.quantity}</p> */}
                 {product.available ? (
-                  <button type="button">Add To Cart</button>
+                  <button type='button'>Add To Cart</button>
                 ) : null}
               </div>
             );
