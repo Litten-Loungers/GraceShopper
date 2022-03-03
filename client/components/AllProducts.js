@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchProducts } from '../store';
+import { fetchProducts, addItemToCart } from '../store';
 
 class AllProducts extends React.Component {
   constructor() {
@@ -15,6 +15,8 @@ class AllProducts extends React.Component {
     this.setState({ products: this.props.products });
   }
   render() {
+    console.log(this.props.userId);
+    console.log(this.state);
     const { products } = this.state;
     return (
       <div className="all-products">
@@ -31,7 +33,17 @@ class AllProducts extends React.Component {
                 <p>{product.description}</p>
                 <p>Quantity: {product.quantity}</p>
                 {product.available ? (
-                  <button type="button">Add To Cart</button>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await this.props.addItemToCart(
+                        this.props.userId,
+                        product.id
+                      );
+                    }}
+                  >
+                    Add To Cart
+                  </button>
                 ) : null}
               </div>
             );
@@ -44,12 +56,15 @@ class AllProducts extends React.Component {
 const mapStateToProps = (state) => {
   return {
     products: state.products,
+    userId: state.auth.id,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchProducts: () => dispatch(fetchProducts()),
+    addItemToCart: (userId, productId) =>
+      dispatch(addItemToCart(userId, productId)),
   };
 };
 
