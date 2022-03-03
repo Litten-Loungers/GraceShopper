@@ -64,6 +64,9 @@ router.get('/user/:userId/cart', async (req, res, next) => {
         where: {
           orderId: order.id,
         },
+        include: {
+          model: Product,
+        },
       });
       res.json(lineItems);
     } else {
