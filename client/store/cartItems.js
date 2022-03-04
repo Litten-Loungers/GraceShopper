@@ -35,15 +35,23 @@ const decItem = (item) => ({
  */
 export const fetchCartItems = (id) => {
   return async (dispatch) => {
-    const { data } = await axios.get(`/api/line-items/user/${id}/cart`);
+    const token = window.localStorage.getItem('token');
+    console.log(token);
+    const { data } = await axios.get(`/api/line-items/cart`, {
+      headers: {
+        authorization: token,
+      },
+    });
     dispatch(setCartItems(data));
   };
 };
 
 export const addItemToCart = (userId, productId) => {
   return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
     const { data } = await axios.post(
-      `/api/line-items/user/${userId}/product/${productId}`
+      `/api/line-items/add-to-cart/${productId}`,
+      { headers: { authorization: token } }
     );
     dispatch(addItem(data[0], data[1]));
   };

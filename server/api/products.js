@@ -8,6 +8,7 @@ module.exports = router;
 //GET all products
 router.get('/', async (req, res, next) => {
   try {
+    console.log(req.user);
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {

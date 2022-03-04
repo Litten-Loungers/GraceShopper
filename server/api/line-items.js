@@ -1,9 +1,20 @@
 const router = require('express').Router();
 const res = require('express/lib/response');
 const {
-  models: { LineItem, Order, Product },
+  models: { LineItem, Order, Product, User },
 } = require('../db');
 module.exports = router;
+
+const requireToken = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+    const user = await User.findByToken(token);
+    req.user = user.dataValues;
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
 
 //GET all lineItems
 router.get('/', async (req, res, next) => {
@@ -39,20 +50,12 @@ router.delete('/:lineItemId', async (req, res, next) => {
   }
 });
 
-//GET single lineItem
-router.get('/:lineItemId', async (req, res, next) => {
-  try {
-    const lineItem = await LineItem.findByPk(req.params.lineItemId);
-    res.json(lineItem);
-  } catch (err) {
-    next(err);
-  }
-});
-
 //GET a user's cart
-router.get('/user/:userId/cart', async (req, res, next) => {
+router.get('/cart', requireToken, async (req, res, next) => {
   try {
-    const { userId } = req.params;
+    console.log('HERE IT Is', req.user);
+    const userId = req.user.id;
+    console.log('{{{{REQ.USER}}}}', req.user);
     const order = await Order.findOne({
       where: {
         userId,
@@ -77,14 +80,24 @@ router.get('/user/:userId/cart', async (req, res, next) => {
   }
 });
 
-//POST a new item to cart
-router.post('/user/:userId/product/:productId', async (req, res, next) => {
+//GET single lineItem
+router.get('/:lineItemId', async (req, res, next) => {
   try {
-    const { userId, productId } = req.params;
+    const lineItem = await LineItem.findByPk(req.params.lineItemId);
+    res.json(lineItem);
+  } catch (err) {
+    next(err);
+  }
+});
+
+//POST a new item to cart
+router.post('/add-to-cart/:productId', requireToken, async (req, res, next) => {
+  try {
+    const { productId } = req.params;
     const product = await Product.findByPk(productId);
     const [cart, cartCreated] = await Order.findOrCreate({
       where: {
-        userId,
+        userId: req.user.id,
         status: 'NEW',
       },
     });
