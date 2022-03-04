@@ -8,6 +8,8 @@ import AllProducts from './components/AllProducts';
 import SingleProduct from './components/SingleProduct';
 import Sidebar from './components/Sidebar';
 import CartWidget from './components/CartWidget';
+import Order from './components/Order';
+import Checkout from './components/Checkout';
 
 class Routes extends Component {
   componentDidMount() {
@@ -22,15 +24,18 @@ class Routes extends Component {
         <Sidebar />
         {isLoggedIn ? (
           <Switch>
+            <Route path="/checkout" component={Checkout} />
+            <Route path="/cart" component={Order} />
             <Route path="/testcartwidget" component={CartWidget} />
             <Route path="/home" component={Home} />
+            <Route path="/products/:productId" component={SingleProduct} />
             <Route path="/products" component={AllProducts} />
             <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>
-            <Route path="/testprod" component={SingleProduct} />
-            <Route path="/products" component={AllProducts} />
+            <Route path="/products/:productId" component={SingleProduct} />
+            <Route exact path="/products" component={AllProducts} />
             <Route path="/" exact component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />

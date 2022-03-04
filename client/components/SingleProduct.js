@@ -1,48 +1,72 @@
-import React from "react";
-import { connect } from "react-redux";
-import { fetchProduct } from "../store";
+import React from 'react';
+import { connect } from 'react-redux';
+import { fetchProduct, addItemToCart } from '../store';
 
-const dummyData = {
-  name: "Whiplash",
-  price: 1000,
-  description: "This is a movie poster",
-  quantity: 1,
-  available: true,
-  imageURL: "",
-};
-
-export default class SingleProduct extends React.Component {
-  constructor() {
-    super();
+class SingleProduct extends React.Component {
+  constructor(props) {
+    super(props);
     this.initialState = {
-      name: "",
+      id: 0,
+      name: '',
       price: 0,
-      description: "",
+      description: '',
       quantity: 0,
       available: true,
-      imageURL: "",
+      imageURL: '',
     };
     this.state = { ...this.initialState };
   }
-  componentDidMount() {
-    this.setState({ ...dummyData });
+
+  async componentDidMount() {
+    await this.props.fetchProduct(this.props.match.params.productId);
+    this.setState({ ...this.props.singleProduct });
   }
   render() {
     const { imageURL, name, price, description, quantity, available } =
       this.state;
     return (
       <div>
-        <img src={imageURL} />
+        <h3>Selected poster:</h3>
+        <hr />
         <h1>{name}</h1>
+        <img src={imageURL} />
         <p>{description}</p>
         <p>${price}</p>
         <p>
           {available
-            ? "this item is available"
-            : "this item is currently unavailable"}
+            ? 'this item is available'
+            : 'this item is currently unavailable'}
         </p>
         <p>{quantity} left in stock</p>
+        {available ? (
+          <button
+            onClick={async () => {
+              await this.props.addItemToCart(this.props.userId, this.state.id);
+            }}
+            type="button"
+          >
+            Add To Cart
+          </button>
+        ) : null}
+        <hr />
       </div>
     );
   }
 }
+
+const mapState = (state) => {
+  return {
+    singleProduct: state.singleProduct,
+    userId: state.auth.id,
+  };
+};
+
+const mapDispatch = (dispatch) => {
+  return {
+    fetchProduct: (id) => dispatch(fetchProduct(id)),
+    addItemToCart: (userId, productId) =>
+      dispatch(addItemToCart(userId, productId)),
+  };
+};
+
+export default connect(mapState, mapDispatch)(SingleProduct);
