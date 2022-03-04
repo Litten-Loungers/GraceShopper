@@ -100,3 +100,15 @@ router.post('/user/:userId/product/:productId', async (req, res, next) => {
     next(err);
   }
 });
+
+// update line-item
+router.put('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const item = await LineItem.findByPk(id);
+    await item.update(req.body);
+    res.json(item);
+  } catch (err) {
+    next(err);
+  }
+});

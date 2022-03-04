@@ -7,6 +7,7 @@ import history from '../history';
 const SET_CART_ITEMS = 'SET_CART_ITEMS';
 const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
 const DELETE_ITEM = 'DELETE_ITEM';
+const DECREMENT_ITEM = 'DECREMENT_ITEM';
 
 /**
  * ACTION CREATORS
@@ -23,6 +24,10 @@ const addItem = (item, created) => ({
 const deleteItem = (id) => ({
   type: DELETE_ITEM,
   id,
+});
+const decItem = (item) => ({
+  type: DECREMENT_ITEM,
+  item,
 });
 
 /**
@@ -51,6 +56,15 @@ export const destroyItem = (id) => {
   };
 };
 
+export const decrementItem = (item) => {
+  return async (dispatch) => {
+    const { data } = await axios.put(`/api/line-items/${item.id}`, {
+      quantity: item.quantity - 1,
+    });
+    dispatch(decItem(data));
+  };
+};
+
 export default function cartItems(state = [], action) {
   switch (action.type) {
     case SET_CART_ITEMS:
@@ -69,6 +83,14 @@ export default function cartItems(state = [], action) {
       }
     case DELETE_ITEM:
       return state.filter((item) => item.id !== action.id);
+    case DECREMENT_ITEM:
+      return state.map((item) => {
+        if (item.id === action.item.id) {
+          return action.item;
+        } else {
+          return item;
+        }
+      });
     default:
       return state;
   }

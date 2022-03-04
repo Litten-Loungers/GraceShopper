@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import auth from '../store/auth';
-import { fetchCartItems, addItemToCart, destroyItem } from '../store';
+import {
+  fetchCartItems,
+  addItemToCart,
+  destroyItem,
+  decrementItem,
+} from '../store';
 import { Link } from 'react-router-dom';
 
 class Order extends React.Component {
@@ -27,7 +32,33 @@ class Order extends React.Component {
             <div key={`id_${idx}`}>
               <p>ORDER ID: {item.orderId}</p>
               <p>ITEM QUANTITY: {item.quantity}</p>{' '}
-              <button type="button" onClick={() => {}}>
+              <button
+                type="button"
+                onClick={async () => {
+                  if (item.quantity > 1) {
+                    await this.props.decrementItem(item);
+                    this.setState((prevState) => ({
+                      cartItems: prevState.cartItems.map((lineItem) => {
+                        if (lineItem.id === item.id) {
+                          return {
+                            ...lineItem,
+                            quantity: lineItem.quantity - 1,
+                          };
+                        } else {
+                          return lineItem;
+                        }
+                      }),
+                    }));
+                  } else {
+                    await this.props.destroyItem(item.id);
+                    this.setState((prevState) => ({
+                      cartItems: prevState.cartItems.filter(
+                        (lineItem) => lineItem.id !== item.id
+                      ),
+                    }));
+                  }
+                }}
+              >
                 -
               </button>
               <button
@@ -90,6 +121,7 @@ const mapDispatch = (dispatch) => {
     addItemToCart: (userId, productId) =>
       dispatch(addItemToCart(userId, productId)),
     destroyItem: (id) => dispatch(destroyItem(id)),
+    decrementItem: (item) => dispatch(decrementItem(item)),
   };
 };
 
