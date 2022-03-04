@@ -9,6 +9,7 @@ import SingleProduct from './components/SingleProduct';
 import Sidebar from './components/Sidebar';
 import CartWidget from './components/CartWidget';
 import Order from './components/Order';
+import Checkout from './components/Checkout';
 
 class Routes extends Component {
   componentDidMount() {
@@ -23,6 +24,7 @@ class Routes extends Component {
         <Sidebar />
         {isLoggedIn ? (
           <Switch>
+            <Route path="/checkout" component={Checkout} />
             <Route path="/cart" component={Order} />
             <Route path="/testcartwidget" component={CartWidget} />
             <Route path="/home" component={Home} />
