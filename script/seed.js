@@ -33,6 +33,8 @@ async function seed() {
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
+      imageURL:
+        'https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg',
     }),
     Product.create({
       name: 'Whiplash',
@@ -40,6 +42,8 @@ async function seed() {
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
+      imageURL:
+        'https://m.media-amazon.com/images/M/MV5BOTA5NDZlZGUtMjAxOS00YTRkLTkwYmMtYWQ0NWEwZDZiNjEzXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg',
     }),
     Product.create({
       name: 'The Dark Knight',
@@ -47,6 +51,8 @@ async function seed() {
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
+      imageURL:
+        'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg',
     }),
     Product.create({
       name: 'Bunny and the Bull',
@@ -54,6 +60,8 @@ async function seed() {
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
+      imageURL:
+        'https://m.media-amazon.com/images/M/MV5BNDM0ODVhNTItNDYyZC00ZjU5LTgxNTMtZmY2MjJkOTU2MTcxXkEyXkFqcGdeQXVyMjI4MjA5MzA@._V1_SX300.jpg',
     }),
     Product.create({
       name: 'Groundhog Day',
@@ -61,6 +69,8 @@ async function seed() {
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
+      imageURL:
+        'https://m.media-amazon.com/images/M/MV5BZWIxNzM5YzQtY2FmMS00Yjc3LWI1ZjUtNGVjMjMzZTIxZTIxXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg',
     }),
     Product.create({
       name: 'Godfather',
@@ -68,6 +78,8 @@ async function seed() {
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
+      imageURL:
+        'https://m.media-amazon.com/images/M/MV5BYjI2YmJhMTUtYjEzYS00N2VmLTlmMzMtZGQ1MjZhNmY0ODdiXkEyXkFqcGdeQXVyMTEzNzg0Mjkx._V1_SX300.jpg',
     }),
     Product.create({
       name: 'Frozen',
@@ -75,6 +87,8 @@ async function seed() {
       description: 'This is a movie poster',
       quantity: 1,
       available: true,
+      imageURL:
+        'https://m.media-amazon.com/images/M/MV5BMTQ1MjQwMTE5OF5BMl5BanBnXkFtZTgwNjk3MTcyMDE@._V1_SX300.jpg',
     }),
   ]);
   //creating order
