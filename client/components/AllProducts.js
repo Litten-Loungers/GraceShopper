@@ -20,21 +20,24 @@ class AllProducts extends React.Component {
     console.log(this.state);
     const { products } = this.state;
     return (
-      <div className="all-products">
+      <div className='all-products'>
         {products
           .sort((x, y) => {
             return x.id - y.id;
           })
           .map((product) => {
             return (
-              <div key={product.id}>
+
+              <div className='singleProduct' key={product.id}>
+                 <div className='moviePic'>
                 <Link to={`/products/${product.id}`}>
-                  <h2>Name: {product.name}</h2>
-                </Link>
                 <img src={product.imageURL} />
-                <p>Price: {product.price}</p>
-                <p>{product.description}</p>
-                <p>Quantity: {product.quantity}</p>
+                <p>{product.name}</p>
+                </Link>
+                 </div>
+
+                <div className='button'>
+                 <p>Price: {product.price}</p>
                 {product.available ? (
                   <button
                     type="button"
@@ -48,6 +51,8 @@ class AllProducts extends React.Component {
                     Add To Cart
                   </button>
                 ) : null}
+                
+                </div>
               </div>
             );
           })}
