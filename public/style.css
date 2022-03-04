@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 a {
@@ -23,6 +23,7 @@ nav h1 {
   color: white;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 nav a {
   display: inline-block;
   margin: 1em;
@@ -33,57 +34,55 @@ form div {
   display: inline-block;
 }
 
-
-.all-products{
+.all-products {
   display: flex;
   flex-direction: column;
-  
+
   color: blue;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .singleProduct {
-  color: white;
-  display: flex;
-  flex-direction: row;
-  column-gap: 25em;
-  height: 120px;
-  width: 700px;
-  /* flex-direction: column; */
-  font-family: Arial, Helvetica, sans-serif;
-  border: 1px solid red;
+  height: 4%;
+  width: 72%;
   margin-bottom: 1em;
-  margin-left: 1em
-}
+  margin-left: 1em;
 
 
-.moviePic{
   display: flex;
   flex-direction: row;
+  column-gap: 15em;
+  border: 1px solid red;
+
+  color: white;
+  background-color: antiquewhite;
+  font-family: 'Roboto', sans-serif;
+
 }
 
-.moviePic > img{
+.moviePic {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.moviePic > img {
   height: 90%;
   margin: auto;
-  margin-left: 9px;
+  margin-left: 0.5em;
 }
 
-.moviePic > p{
+.moviePic > p {
   margin: auto;
   margin-left: 2em;
 }
 
-.button{
+.button {
   display: flex;
   text-align: center;
   flex-direction: column;
+  align-self: center;
 }
-
-/* .singleProduct > img{
-  height: 90%;
-  margin: auto;
-  margin-left: 9px;
-} */
 
 .routes {
   display: flex;
