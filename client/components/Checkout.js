@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchCartItems } from '../store';
+import { fetchCartItems, updateProduct, completeOrder } from '../store';
 
 class Checkout extends React.Component {
   constructor() {
@@ -35,7 +35,16 @@ class Checkout extends React.Component {
             </div>
           );
         })}
-        <button type="button" onClick={() => {}}>
+        <button
+          type="button"
+          onClick={async () => {
+            items.forEach(async (item) => {
+              await this.props.updateProduct(item.product.id, {
+                quantity: item.product.quantity - item.quantity,
+              });
+            });
+          }}
+        >
           Confirm Order
         </button>
       </div>
@@ -53,6 +62,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchCartItems: (id) => dispatch(fetchCartItems(id)),
+    updateProduct: (id, updates) => dispatch(updateProduct(id, updates)),
+    completeOrder: (orderId) => dispatch(completeOrder(orderId)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

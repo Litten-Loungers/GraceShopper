@@ -5,6 +5,7 @@ import history from '../history';
  * ACTION TYPES
  */
 const SET_PRODUCTS = 'SET_PRODUCTS';
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 
 /**
  * ACTION CREATORS
@@ -12,6 +13,11 @@ const SET_PRODUCTS = 'SET_PRODUCTS';
 const setProducts = (products) => ({
   type: SET_PRODUCTS,
   products,
+});
+
+const update = (product) => ({
+  type: UPDATE_PRODUCT,
+  product,
 });
 
 /**
@@ -24,10 +30,25 @@ export const fetchProducts = () => {
   };
 };
 
+export const updateProduct = (id, updates) => {
+  return async (dispatch) => {
+    const { data } = await axios.put(`/api/products/${id}`, updates);
+    dispatch(update(data));
+  };
+};
+
 export default function products(state = [], action) {
   switch (action.type) {
     case SET_PRODUCTS:
       return action.products;
+    case UPDATE_PRODUCT:
+      return state.map((product) => {
+        if (product.id === action.product.id) {
+          return action.product;
+        } else {
+          return product;
+        }
+      });
     default:
       return state;
   }
