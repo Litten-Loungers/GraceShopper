@@ -43,10 +43,10 @@ form div {
 }
 
 .singleProduct {
-  color: blue;
+  color: white;
   display: flex;
   flex-direction: row;
-  column-gap: 7em;
+  column-gap: 25em;
   height: 120px;
   width: 700px;
   /* flex-direction: column; */
@@ -56,8 +56,21 @@ form div {
   margin-left: 1em
 }
 
-.movieName{
-  width: 20em;
+
+.moviePic{
+  display: flex;
+  flex-direction: row;
+}
+
+.moviePic > img{
+  height: 90%;
+  margin: auto;
+  margin-left: 9px;
+}
+
+.moviePic > p{
+  margin: auto;
+  margin-left: 2em;
 }
 
 .button{
@@ -66,11 +79,11 @@ form div {
   flex-direction: column;
 }
 
-.singleProduct > img{
+/* .singleProduct > img{
   height: 90%;
   margin: auto;
   margin-left: 9px;
-}
+} */
 
 .routes {
   display: flex;
