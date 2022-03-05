@@ -13,14 +13,14 @@ class Checkout extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.fetchCartItems(this.props.userId);
+    await this.props.fetchCartItems();
     this.setState({
       items: this.props.items,
     });
   }
 
   render() {
-    const { items } = this.props;
+    const { items } = this.state;
     const total = items.reduce((acc, curr) => {
       return acc + curr.quantity * curr.price;
     }, 0);
@@ -46,6 +46,7 @@ class Checkout extends React.Component {
             });
             await this.props.completeOrder();
             this.setState({
+              items: [],
               thankYou: 'Order confirmed! Thank you for shopping with us!',
             });
           }}
@@ -67,7 +68,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCartItems: (id) => dispatch(fetchCartItems(id)),
+    fetchCartItems: () => dispatch(fetchCartItems()),
     purchaseProduct: (id, updates) => dispatch(purchaseProduct(id, updates)),
     completeOrder: () => dispatch(completeOrder()),
   };

@@ -38,7 +38,7 @@ const complete = (emptyCart) => ({
 /**
  * THUNK CREATORS
  */
-export const fetchCartItems = (id) => {
+export const fetchCartItems = () => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
     const { data } = await axios.get(`/api/line-items/cart`, {
