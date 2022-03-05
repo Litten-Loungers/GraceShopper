@@ -36,7 +36,6 @@ const decItem = (item) => ({
 export const fetchCartItems = (id) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    console.log(token);
     const { data } = await axios.get(`/api/line-items/cart`, {
       headers: {
         authorization: token,
@@ -51,7 +50,12 @@ export const addItemToCart = (userId, productId) => {
     const token = window.localStorage.getItem('token');
     const { data } = await axios.post(
       `/api/line-items/add-to-cart/${productId}`,
-      { headers: { authorization: token } }
+      {},
+      {
+        headers: {
+          authorization: token,
+        },
+      }
     );
     dispatch(addItem(data[0], data[1]));
   };
@@ -59,16 +63,30 @@ export const addItemToCart = (userId, productId) => {
 
 export const destroyItem = (id) => {
   return async (dispatch) => {
-    await axios.delete(`/api/line-items/${id}`);
+    const token = window.localStorage.getItem('token');
+    await axios.delete(`/api/line-items/${id}`, {
+      headers: {
+        authorization: token,
+      },
+    });
     dispatch(deleteItem(id));
   };
 };
 
 export const decrementItem = (item) => {
   return async (dispatch) => {
-    const { data } = await axios.put(`/api/line-items/${item.id}`, {
-      quantity: item.quantity - 1,
-    });
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(
+      `/api/line-items/${item.id}`,
+      {
+        quantity: item.quantity - 1,
+      },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
     dispatch(decItem(data));
   };
 };

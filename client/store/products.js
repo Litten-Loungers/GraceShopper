@@ -32,7 +32,9 @@ export const fetchProducts = () => {
 
 export const updateProduct = (id, updates) => {
   return async (dispatch) => {
-    const { data } = await axios.put(`/api/products/${id}`, updates);
+    const { data } = await axios.put(`/api/products/${id}`, updates, {
+      headers: { authorization: 'PURCHASE_MADE' },
+    });
     dispatch(update(data));
   };
 };

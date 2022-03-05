@@ -35,8 +35,9 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+//think this needs more attention later for security
 //DELETE single lineItem
-router.delete('/:lineItemId', async (req, res, next) => {
+router.delete('/:lineItemId', requireToken, async (req, res, next) => {
   const id = Number(req.params.lineItemId);
   try {
     await LineItem.destroy({
@@ -53,9 +54,7 @@ router.delete('/:lineItemId', async (req, res, next) => {
 //GET a user's cart
 router.get('/cart', requireToken, async (req, res, next) => {
   try {
-    console.log('HERE IT Is', req.user);
     const userId = req.user.id;
-    console.log('{{{{REQ.USER}}}}', req.user);
     const order = await Order.findOne({
       where: {
         userId,
@@ -114,8 +113,9 @@ router.post('/add-to-cart/:productId', requireToken, async (req, res, next) => {
   }
 });
 
+// this one too
 // update line-item
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
     const item = await LineItem.findByPk(id);

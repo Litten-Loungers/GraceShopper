@@ -52,9 +52,13 @@ router.get('/:productId', async (req, res, next) => {
 
 router.put('/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.productId);
-    await product.update(req.body);
-    res.json(product);
+    if (req.headers.authorization === 'PURCHASE_MADE') {
+      const product = await Product.findByPk(req.params.productId);
+      await product.update(req.body);
+      res.json(product);
+    } else {
+      next(new Error());
+    }
   } catch (err) {
     next(err);
   }
