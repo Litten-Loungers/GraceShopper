@@ -36,15 +36,23 @@ router.post('/', async (req, res, next) => {
 });
 
 //think this needs more attention later for security
-//DELETE single lineItem
+//DELETE single lineItem from cart
 router.delete('/:lineItemId', requireToken, async (req, res, next) => {
   const id = Number(req.params.lineItemId);
   try {
-    await LineItem.destroy({
+    const order = await Order.findOne({
       where: {
-        id: id,
+        userId: req.user.id,
+        status: 'NEW',
       },
     });
+    const lineItem = await LineItem.findOne({
+      where: {
+        orderId: order.id,
+        id,
+      },
+    });
+    await lineItem.destroy();
     res.send(204);
   } catch (error) {
     next(error);
@@ -118,9 +126,20 @@ router.post('/add-to-cart/:productId', requireToken, async (req, res, next) => {
 router.put('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const item = await LineItem.findByPk(id);
-    await item.update(req.body);
-    res.json(item);
+    const order = await Order.findOne({
+      where: {
+        userId: req.user.id,
+        status: 'NEW',
+      },
+    });
+    const lineItem = await LineItem.findOne({
+      where: {
+        orderId: order.id,
+        id,
+      },
+    });
+    await lineItem.update(req.body);
+    res.json(lineItem);
   } catch (err) {
     next(err);
   }
