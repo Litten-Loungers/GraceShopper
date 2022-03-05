@@ -129,7 +129,7 @@ router.put('/complete-order', requireToken, async (req, res, next) => {
       },
     });
     await order.update({ status: 'COMPLETED' });
-    res.json([])
+    res.json([]);
   } catch (err) {
     next(err);
   }

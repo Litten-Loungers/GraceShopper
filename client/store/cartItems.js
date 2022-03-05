@@ -50,7 +50,7 @@ export const fetchCartItems = () => {
   };
 };
 
-export const addItemToCart = (userId, productId) => {
+export const addItemToCart = (productId) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
     const { data } = await axios.post(

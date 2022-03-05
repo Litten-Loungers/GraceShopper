@@ -41,11 +41,8 @@ class AllProducts extends React.Component {
                     <button
                       type="button"
                       onClick={async () => {
-                        if (this.props.userId) {
-                          await this.props.addItemToCart(
-                            this.props.userId,
-                            product.id
-                          );
+                        if (window.localStorage.getItem('token')) {
+                          await this.props.addItemToCart(product.id);
                         } else {
                           const cart = JSON.parse(
                             window.localStorage.getItem('guestCart')
@@ -85,8 +82,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchProducts: () => dispatch(fetchProducts()),
-    addItemToCart: (userId, productId) =>
-      dispatch(addItemToCart(userId, productId)),
+    addItemToCart: (productId) => dispatch(addItemToCart(productId)),
   };
 };
 

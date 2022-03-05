@@ -41,11 +41,8 @@ class SingleProduct extends React.Component {
         {available ? (
           <button
             onClick={async () => {
-              if (this.props.userId) {
-                await this.props.addItemToCart(
-                  this.props.userId,
-                  this.state.id
-                );
+              if (window.localStorage.getItem('token')) {
+                await this.props.addItemToCart(this.state.id);
               } else {
                 const cart = JSON.parse(
                   window.localStorage.getItem('guestCart')
@@ -87,8 +84,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     fetchProduct: (id) => dispatch(fetchProduct(id)),
-    addItemToCart: (userId, productId) =>
-      dispatch(addItemToCart(userId, productId)),
+    addItemToCart: (productId) => dispatch(addItemToCart(productId)),
   };
 };
 
