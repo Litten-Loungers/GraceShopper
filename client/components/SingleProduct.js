@@ -41,7 +41,23 @@ class SingleProduct extends React.Component {
         {available ? (
           <button
             onClick={async () => {
-              await this.props.addItemToCart(this.props.userId, this.state.id);
+              if (this.props.userId) {
+                await this.props.addItemToCart(this.props.userId, product.id);
+              } else {
+                const cart = JSON.parse(
+                  window.localStorage.getItem('guestCart')
+                );
+                const updateItem = cart.findIndex(
+                  (item) => item.id === this.state.id
+                );
+                if (updateItem >= 0) {
+                  cart[updateItem].quantity++;
+                } else {
+                  cart.push({ id: this.state.id, quantity: 1 });
+                }
+                const guestCart = JSON.stringify(cart);
+                window.localStorage.setItem('guestCart', guestCart);
+              }
             }}
             type="button"
           >

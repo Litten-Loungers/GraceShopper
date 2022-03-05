@@ -39,7 +39,6 @@ class AllProducts extends React.Component {
                   <button
                     type="button"
                     onClick={async () => {
-                      console.log(this.props.userId);
                       if (this.props.userId) {
                         await this.props.addItemToCart(
                           this.props.userId,
@@ -49,11 +48,9 @@ class AllProducts extends React.Component {
                         const cart = JSON.parse(
                           window.localStorage.getItem('guestCart')
                         );
-                        console.log(cart);
                         const updateItem = cart.findIndex(
                           (item) => item.id === product.id
                         );
-                        console.log(updateItem);
                         if (updateItem >= 0) {
                           cart[updateItem].quantity++;
                         } else {
