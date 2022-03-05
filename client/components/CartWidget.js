@@ -20,7 +20,7 @@ class CartWidget extends React.Component {
   render() {
     return (
       <Link to="/cart">
-        <div>Items in cart: {this.state.cartItems.length}</div>
+        <div>Items in cart: {this.props.cartItems.length}</div>
       </Link>
     );
   }
