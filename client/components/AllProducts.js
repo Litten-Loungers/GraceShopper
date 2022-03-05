@@ -39,10 +39,29 @@ class AllProducts extends React.Component {
                   <button
                     type="button"
                     onClick={async () => {
-                      await this.props.addItemToCart(
-                        this.props.userId,
-                        product.id
-                      );
+                      console.log(this.props.userId);
+                      if (this.props.userId) {
+                        await this.props.addItemToCart(
+                          this.props.userId,
+                          product.id
+                        );
+                      } else {
+                        const cart = JSON.parse(
+                          window.localStorage.getItem('guestCart')
+                        );
+                        console.log(cart);
+                        const updateItem = cart.findIndex(
+                          (item) => item.id === product.id
+                        );
+                        console.log(updateItem);
+                        if (updateItem >= 0) {
+                          cart[updateItem].quantity++;
+                        } else {
+                          cart.push({ id: product.id, quantity: 1 });
+                        }
+                        const guestCart = JSON.stringify(cart);
+                        window.localStorage.setItem('guestCart', guestCart);
+                      }
                     }}
                   >
                     Add To Cart

@@ -13,6 +13,10 @@ import Checkout from './components/Checkout';
 
 class Routes extends Component {
   componentDidMount() {
+    const starterCart = JSON.stringify([]);
+    if (!window.localStorage.getItem('guestCart')) {
+      window.localStorage.setItem('guestCart', starterCart);
+    }
     this.props.loadInitialData();
   }
 

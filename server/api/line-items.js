@@ -35,7 +35,6 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-//think this needs more attention later for security
 //DELETE single lineItem from cart
 router.delete('/:lineItemId', requireToken, async (req, res, next) => {
   const id = Number(req.params.lineItemId);
@@ -121,7 +120,6 @@ router.post('/add-to-cart/:productId', requireToken, async (req, res, next) => {
   }
 });
 
-// this one too
 // update line-item
 router.put('/:id', requireToken, async (req, res, next) => {
   try {
