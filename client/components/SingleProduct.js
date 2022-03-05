@@ -42,7 +42,10 @@ class SingleProduct extends React.Component {
           <button
             onClick={async () => {
               if (this.props.userId) {
-                await this.props.addItemToCart(this.props.userId, product.id);
+                await this.props.addItemToCart(
+                  this.props.userId,
+                  this.state.id
+                );
               } else {
                 const cart = JSON.parse(
                   window.localStorage.getItem('guestCart')
@@ -53,7 +56,11 @@ class SingleProduct extends React.Component {
                 if (updateItem >= 0) {
                   cart[updateItem].quantity++;
                 } else {
-                  cart.push({ id: this.state.id, quantity: 1 });
+                  cart.push({
+                    id: this.state.id,
+                    quantity: 1,
+                    product: this.state,
+                  });
                 }
                 const guestCart = JSON.stringify(cart);
                 window.localStorage.setItem('guestCart', guestCart);

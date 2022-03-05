@@ -18,8 +18,14 @@ class Order extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.fetchCartItems(this.props.userId);
-    this.setState({ cartItems: this.props.cartItems });
+    if (this.props.userId) {
+      await this.props.fetchCartItems(this.props.userId);
+      this.setState({ cartItems: this.props.cartItems });
+    } else {
+      this.setState({
+        cartItems: [...JSON.parse(window.localStorage.getItem('guestCart'))],
+      });
+    }
   }
 
   render() {
