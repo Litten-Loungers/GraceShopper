@@ -90,3 +90,18 @@ router.put(
     }
   }
 );
+
+router.put(`/:productId`, requireToken, async (req, res, next) => {
+  try {
+    if (req.user.type === 'ADMIN') {
+      const { productId } = req.params;
+      const product = await Product.findByPk(productId);
+      await product.update(req.body);
+      res.json(product);
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    next(err);
+  }
+});
