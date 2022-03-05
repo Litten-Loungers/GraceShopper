@@ -30,10 +30,11 @@ export const fetchProducts = () => {
   };
 };
 
-export const updateProduct = (id, updates) => {
+export const purchaseProduct = (id, updates) => {
   return async (dispatch) => {
-    const { data } = await axios.put(`/api/products/${id}`, updates, {
-      headers: { authorization: 'PURCHASE_MADE' },
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(`/api/products/purchase-item/${id}`, updates, {
+      headers: { authorization: token },
     });
     dispatch(update(data));
   };

@@ -8,6 +8,7 @@ const SET_CART_ITEMS = 'SET_CART_ITEMS';
 const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
 const DELETE_ITEM = 'DELETE_ITEM';
 const DECREMENT_ITEM = 'DECREMENT_ITEM';
+const COMPLETE_ORDER = 'COMPLETE_ORDER';
 
 /**
  * ACTION CREATORS
@@ -28,6 +29,10 @@ const deleteItem = (id) => ({
 const decItem = (item) => ({
   type: DECREMENT_ITEM,
   item,
+});
+const complete = (emptyCart) => ({
+  type: COMPLETE_ORDER,
+  emptyCart,
 });
 
 /**
@@ -91,6 +96,18 @@ export const decrementItem = (item) => {
   };
 };
 
+export const completeOrder = () => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(
+      '/api/line-items/complete-order',
+      {},
+      { headers: { authorization: token } }
+    );
+    dispatch(complete([]));
+  };
+};
+
 export default function cartItems(state = [], action) {
   switch (action.type) {
     case SET_CART_ITEMS:
@@ -117,6 +134,8 @@ export default function cartItems(state = [], action) {
           return item;
         }
       });
+    case COMPLETE_ORDER:
+      return action.emptyCart;
     default:
       return state;
   }

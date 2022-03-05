@@ -120,6 +120,21 @@ router.post('/add-to-cart/:productId', requireToken, async (req, res, next) => {
   }
 });
 
+router.put('/complete-order', requireToken, async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
+      where: {
+        userId: req.user.id,
+        status: 'NEW',
+      },
+    });
+    await order.update({ status: 'COMPLETED' });
+    res.json([])
+  } catch (err) {
+    next(err);
+  }
+});
+
 // update line-item
 router.put('/:id', requireToken, async (req, res, next) => {
   try {

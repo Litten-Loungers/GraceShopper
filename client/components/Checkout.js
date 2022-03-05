@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchCartItems, updateProduct } from '../store';
+import { fetchCartItems, purchaseProduct, completeOrder } from '../store';
 
 class Checkout extends React.Component {
   constructor() {
     super();
     this.initialState = {
       items: [],
+      thankYou: '',
     };
     this.state = { ...this.initialState };
   }
@@ -19,7 +20,7 @@ class Checkout extends React.Component {
   }
 
   render() {
-    const { items } = this.state;
+    const { items } = this.props;
     const total = items.reduce((acc, curr) => {
       return acc + curr.quantity * curr.price;
     }, 0);
@@ -39,14 +40,19 @@ class Checkout extends React.Component {
           type="button"
           onClick={async () => {
             items.forEach(async (item) => {
-              await this.props.updateProduct(item.product.id, {
+              await this.props.purchaseProduct(item.product.id, {
                 quantity: item.product.quantity - item.quantity,
               });
+            });
+            await this.props.completeOrder();
+            this.setState({
+              thankYou: 'Order confirmed! Thank you for shopping with us!',
             });
           }}
         >
           Confirm Order
         </button>
+        <h2>{this.state.thankYou}</h2>
       </div>
     );
   }
@@ -62,7 +68,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchCartItems: (id) => dispatch(fetchCartItems(id)),
-    updateProduct: (id, updates) => dispatch(updateProduct(id, updates)),
+    purchaseProduct: (id, updates) => dispatch(purchaseProduct(id, updates)),
+    completeOrder: () => dispatch(completeOrder()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
