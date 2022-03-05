@@ -3,20 +3,27 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateProduct } from '../store';
 
 export default function EditProductForm() {
-  // pull singleProduct from store
-  const singleProduct = useSelector((state) => state.singleProduct);
-  // set local state
-  const [product, setProduct] = useState(singleProduct);
-  //initialize dispatch function
   const dispatch = useDispatch();
+  const singleProduct = useSelector((state) => state.singleProduct);
+  const [product, setProduct] = useState({
+    name: '',
+    price: 0,
+    description: '',
+    imageURL: '',
+    quantity: 0,
+    available: true,
+  });
 
-  const { name, price, description, imageURL, quantity, available } = product;
+  useEffect(() => {
+    setProduct(singleProduct);
+  }, []);
 
-  function handleChange(evt) {
+  const handleChange = (evt) => {
     setProduct({
+      ...product,
       [evt.target.name]: evt.target.value,
     });
-  }
+  };
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -27,21 +34,33 @@ export default function EditProductForm() {
     <div className="edit-product-form">
       <form id="edit-product-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Name </label>
-        <input name="name" onChange={handleChange} value={name} />
-
+        <input name="name" onChange={handleChange} value={product.name} />
         <label htmlFor="price">Price </label>
-        <input name="price" onChange={handleChange} value={price} />
-
+        <input name="price" onChange={handleChange} value={product.price} />
         <label htmlFor="description">Description </label>
-        <input name="description" onChange={handleChange} value={description} />
-
+        <input
+          name="description"
+          onChange={handleChange}
+          value={product.description}
+        />
         <label htmlFor="imageURL">ImageURL </label>
-        <input name="imageURL" onChange={handleChange} value={imageURL} />
+        <input
+          name="imageURL"
+          onChange={handleChange}
+          value={product.imageURL}
+        />
         <label htmlFor="quantity">Quantity </label>
-        <input name="quantity" onChange={handleChange} value={quantity} />
+        <input
+          name="quantity"
+          onChange={handleChange}
+          value={product.quantity}
+        />
         <label htmlFor="available">Available </label>
-        <input name="available" onChange={handleChange} value={available} />
-
+        <input
+          name="available"
+          onChange={handleChange}
+          value={product.available}
+        />
         <button type="submit" className="submit-btn">
           Save Changes
         </button>
