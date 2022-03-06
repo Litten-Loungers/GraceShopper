@@ -62,34 +62,20 @@ router.get('/:productId', async (req, res, next) => {
   }
 });
 
-router.put(
-  '/purchase-item/:productId',
-  requireToken,
-  async (req, res, next) => {
-    try {
+router.put('/purchase-item/:productId', async (req, res, next) => {
+  try {
+    if (req.headers.authorization === 'ITEM_PURCHASED') {
       const id = req.params.productId;
-      const order = await Order.findOne({
-        where: {
-          userId: req.user.id,
-          status: 'NEW',
-        },
-      });
-      const lineItem = await LineItem.findOne({
-        where: {
-          orderId: order.id,
-          productId: id,
-        },
-        include: {
-          model: Product,
-        },
-      });
-      await lineItem.product.update(req.body);
-      res.json(lineItem.product);
-    } catch (err) {
-      next(err);
+      const product = await Product.findByPk(id);
+      await product.update(req.body);
+      res.json(product);
+    } else {
+      throw new Error();
     }
+  } catch (err) {
+    next(err);
   }
-);
+});
 
 router.put(`/:productId`, requireToken, async (req, res, next) => {
   try {

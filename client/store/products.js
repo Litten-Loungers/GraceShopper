@@ -42,12 +42,11 @@ export const updateProduct = (productId, product) => {
 
 export const purchaseProduct = (id, updates) => {
   return async (dispatch) => {
-    const token = window.localStorage.getItem('token');
     const { data } = await axios.put(
       `/api/products/purchase-item/${id}`,
       updates,
       {
-        headers: { authorization: token },
+        headers: { authorization: 'ITEM_PURCHASED' },
       }
     );
     dispatch(update(data));

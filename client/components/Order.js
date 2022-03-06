@@ -94,6 +94,22 @@ class Order extends React.Component {
     }
   }
 
+  async handleRemove(item) {
+    if (window.localStorage.getItem('token')) {
+      await this.props.destroyItem(item.id);
+      this.setState((prevState) => ({
+        cartItems: prevState.cartItems.filter(
+          (lineItem) => lineItem.id !== item.id
+        ),
+      }));
+    } else {
+      const guestCart = JSON.parse(window.localStorage.getItem('guestCart'));
+      const newCart = guestCart.filter((lineItem) => lineItem.id !== item.id);
+      this.setState({ cartItems: [...newCart] });
+      window.localStorage.setItem('guestCart', JSON.stringify(newCart));
+    }
+  }
+
   render() {
     const { cartItems } = this.state;
     console.log(cartItems);
@@ -123,12 +139,7 @@ class Order extends React.Component {
               <button
                 type="button"
                 onClick={async () => {
-                  await this.props.destroyItem(item.id);
-                  this.setState((prevState) => ({
-                    cartItems: prevState.cartItems.filter(
-                      (lineItem) => lineItem.id !== item.id
-                    ),
-                  }));
+                  this.handleRemove(item);
                 }}
               >
                 Remove From Cart
