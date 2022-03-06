@@ -13,16 +13,30 @@ class CartWidget extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.fetchCartItems();
-    this.setState({ cartItems: this.props.cartItems });
+    if (window.localStorage.getItem('token')) {
+      await this.props.fetchCartItems();
+      this.setState({ cartItems: this.props.cartItems });
+    } else {
+      this.setState({
+        cartItems: [...JSON.parse(window.localStorage.getItem('guestCart'))],
+      });
+    }
   }
 
   render() {
-    return (
-      <Link to="/cart">
-        <div>Items in cart: {this.props.cartItems.length}</div>
-      </Link>
-    );
+    if (window.localStorage.getItem('token')) {
+      return (
+        <Link to="/cart">
+          <div>Items in cart: {this.props.cartItems.length}</div>
+        </Link>
+      );
+    } else {
+      return (
+        <Link to="/cart">
+          <div>Items in cart: {this.state.cartItems.length}</div>
+        </Link>
+      );
+    }
   }
 }
 

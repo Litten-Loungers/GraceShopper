@@ -20,6 +20,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         <div>
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
+          <CartWidget />
         </div>
       )}
     </nav>
