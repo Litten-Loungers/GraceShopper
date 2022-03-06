@@ -56,6 +56,7 @@ class SingleProduct extends React.Component {
                   cart.push({
                     id: this.state.id,
                     quantity: 1,
+                    price: product.price,
                     product: this.state,
                   });
                 }
