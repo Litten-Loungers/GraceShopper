@@ -41,7 +41,27 @@ class SingleProduct extends React.Component {
         {available ? (
           <button
             onClick={async () => {
-              await this.props.addItemToCart(this.props.userId, this.state.id);
+              if (window.localStorage.getItem('token')) {
+                await this.props.addItemToCart(this.state.id);
+              } else {
+                const cart = JSON.parse(
+                  window.localStorage.getItem('guestCart')
+                );
+                const updateItem = cart.findIndex(
+                  (item) => item.id === this.state.id
+                );
+                if (updateItem >= 0) {
+                  cart[updateItem].quantity++;
+                } else {
+                  cart.push({
+                    id: this.state.id,
+                    quantity: 1,
+                    product: this.state,
+                  });
+                }
+                const guestCart = JSON.stringify(cart);
+                window.localStorage.setItem('guestCart', guestCart);
+              }
             }}
             type="button"
           >
@@ -64,8 +84,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     fetchProduct: (id) => dispatch(fetchProduct(id)),
-    addItemToCart: (userId, productId) =>
-      dispatch(addItemToCart(userId, productId)),
+    addItemToCart: (productId) => dispatch(addItemToCart(productId)),
   };
 };
 

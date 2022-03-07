@@ -7,7 +7,7 @@ export const Sidebar = () => {
     <div className="sidebar">
       <p>FILTER BY TYPE</p>
 
-      <Link to="/order">IN CART</Link>
+      <Link to="/cart">IN CART</Link>
       <Link to="/checkout">CHECK OUT</Link>
     </div>
   );

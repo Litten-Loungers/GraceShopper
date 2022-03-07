@@ -8,6 +8,7 @@ const SET_CART_ITEMS = 'SET_CART_ITEMS';
 const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
 const DELETE_ITEM = 'DELETE_ITEM';
 const DECREMENT_ITEM = 'DECREMENT_ITEM';
+const COMPLETE_ORDER = 'COMPLETE_ORDER';
 
 /**
  * ACTION CREATORS
@@ -29,21 +30,37 @@ const decItem = (item) => ({
   type: DECREMENT_ITEM,
   item,
 });
+const complete = (emptyCart) => ({
+  type: COMPLETE_ORDER,
+  emptyCart,
+});
 
 /**
  * THUNK CREATORS
  */
-export const fetchCartItems = (id) => {
+export const fetchCartItems = () => {
   return async (dispatch) => {
-    const { data } = await axios.get(`/api/line-items/user/${id}/cart`);
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.get(`/api/line-items/cart`, {
+      headers: {
+        authorization: token,
+      },
+    });
     dispatch(setCartItems(data));
   };
 };
 
-export const addItemToCart = (userId, productId) => {
+export const addItemToCart = (productId) => {
   return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
     const { data } = await axios.post(
-      `/api/line-items/user/${userId}/product/${productId}`
+      `/api/line-items/add-to-cart/${productId}`,
+      {},
+      {
+        headers: {
+          authorization: token,
+        },
+      }
     );
     dispatch(addItem(data[0], data[1]));
   };
@@ -51,17 +68,43 @@ export const addItemToCart = (userId, productId) => {
 
 export const destroyItem = (id) => {
   return async (dispatch) => {
-    await axios.delete(`/api/line-items/${id}`);
+    const token = window.localStorage.getItem('token');
+    await axios.delete(`/api/line-items/${id}`, {
+      headers: {
+        authorization: token,
+      },
+    });
     dispatch(deleteItem(id));
   };
 };
 
 export const decrementItem = (item) => {
   return async (dispatch) => {
-    const { data } = await axios.put(`/api/line-items/${item.id}`, {
-      quantity: item.quantity - 1,
-    });
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(
+      `/api/line-items/${item.id}`,
+      {
+        quantity: item.quantity - 1,
+      },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
     dispatch(decItem(data));
+  };
+};
+
+export const completeOrder = () => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(
+      '/api/line-items/complete-order',
+      {},
+      { headers: { authorization: token } }
+    );
+    dispatch(complete([]));
   };
 };
 
@@ -91,6 +134,8 @@ export default function cartItems(state = [], action) {
           return item;
         }
       });
+    case COMPLETE_ORDER:
+      return action.emptyCart;
     default:
       return state;
   }
