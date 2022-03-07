@@ -30,10 +30,10 @@ export const fetchProducts = () => {
   };
 };
 
-export const updateProduct = (productId, product) => {
+export const updateProduct = (id, updates) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const { data } = await axios.put(`api/products/${productId}`, product, {
+    const { data } = await axios.put(`/api/products/${id}`, updates, {
       headers: { authorization: token },
     });
     dispatch(update(data));
