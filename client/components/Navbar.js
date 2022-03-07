@@ -10,6 +10,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
       <h1>GRACE SHOPPER</h1>
       {isLoggedIn ? (
         <div>
+          <Link to="/products">Our Products</Link>
           <Link to="/home">Home</Link>
           <a href="#" onClick={handleClick}>
             Logout
@@ -18,6 +19,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
         </div>
       ) : (
         <div>
+          <Link to="/products">Our Products</Link>
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
           <CartWidget />
