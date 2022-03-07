@@ -27,27 +27,43 @@ class AllProducts extends React.Component {
           })
           .map((product) => {
             return (
-              <div key={product.id}>
-                <Link to={`/products/${product.id}`}>
-                  <h2>Name: {product.name}</h2>
-                </Link>
-                <img src={product.imageURL} />
-                <p>Price: {product.price}</p>
-                <p>{product.description}</p>
-                <p>Quantity: {product.quantity}</p>
-                {product.available ? (
-                  <button
-                    type="button"
-                    onClick={async () => {
-                      await this.props.addItemToCart(
-                        this.props.userId,
-                        product.id
-                      );
-                    }}
-                  >
-                    Add To Cart
-                  </button>
-                ) : null}
+              <div className="singleProduct" key={product.id}>
+                <div className="moviePic">
+                  <Link to={`/products/${product.id}`}>
+                    <img src={product.imageURL} />
+                    <p>{product.name}</p>
+                  </Link>
+                </div>
+
+                <div className="button">
+                  <p>Price: {product.price}</p>
+                  {product.available ? (
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        if (window.localStorage.getItem('token')) {
+                          await this.props.addItemToCart(product.id);
+                        } else {
+                          const cart = JSON.parse(
+                            window.localStorage.getItem('guestCart')
+                          );
+                          const updateItem = cart.findIndex(
+                            (item) => item.id === product.id
+                          );
+                          if (updateItem >= 0) {
+                            cart[updateItem].quantity++;
+                          } else {
+                            cart.push({ id: product.id, quantity: 1, price: product.price, product });
+                          }
+                          const guestCart = JSON.stringify(cart);
+                          window.localStorage.setItem('guestCart', guestCart);
+                        }
+                      }}
+                    >
+                      Add To Cart
+                    </button>
+                  ) : null}
+                </div>
               </div>
             );
           })}
@@ -66,8 +82,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchProducts: () => dispatch(fetchProducts()),
-    addItemToCart: (userId, productId) =>
-      dispatch(addItemToCart(userId, productId)),
+    addItemToCart: (productId) => dispatch(addItemToCart(productId)),
   };
 };
 

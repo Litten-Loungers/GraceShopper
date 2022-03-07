@@ -1,5 +1,5 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 a {
@@ -23,6 +23,7 @@ nav h1 {
   color: white;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 nav a {
   display: inline-block;
   margin: 1em;
@@ -32,6 +33,57 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.all-products {
+  display: flex;
+  flex-direction: column;
+
+  color: blue;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.singleProduct {
+  height: 4%;
+  width: 72%;
+  margin-bottom: 1em;
+  margin-left: 1em;
+
+
+  display: flex;
+  flex-direction: row;
+  column-gap: 15em;
+  border: 1px solid red;
+
+  color: white;
+  background-color: antiquewhite;
+  font-family: 'Roboto', sans-serif;
+
+}
+
+.moviePic {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.moviePic > img {
+  height: 90%;
+  margin: auto;
+  margin-left: 0.5em;
+}
+
+.moviePic > p {
+  margin: auto;
+  margin-left: 2em;
+}
+
+.button {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  align-self: center;
+}
+
 .routes {
   display: flex;
 }

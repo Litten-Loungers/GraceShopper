@@ -1,9 +1,20 @@
 const router = require('express').Router();
 const res = require('express/lib/response');
 const {
-  models: { LineItem, Order, Product },
+  models: { LineItem, Order, Product, User },
 } = require('../db');
 module.exports = router;
+
+const requireToken = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+    const user = await User.findByToken(token);
+    req.user = user.dataValues;
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
 
 //GET all lineItems
 router.get('/', async (req, res, next) => {
@@ -24,35 +35,33 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-//DELETE single lineItem
-router.delete('/:lineItemId', async (req, res, next) => {
+//DELETE single lineItem from cart
+router.delete('/:lineItemId', requireToken, async (req, res, next) => {
   const id = Number(req.params.lineItemId);
   try {
-    await LineItem.destroy({
+    const order = await Order.findOne({
       where: {
-        id: id,
+        userId: req.user.id,
+        status: 'NEW',
       },
     });
+    const lineItem = await LineItem.findOne({
+      where: {
+        orderId: order.id,
+        id,
+      },
+    });
+    await lineItem.destroy();
     res.send(204);
   } catch (error) {
     next(error);
   }
 });
 
-//GET single lineItem
-router.get('/:lineItemId', async (req, res, next) => {
-  try {
-    const lineItem = await LineItem.findByPk(req.params.lineItemId);
-    res.json(lineItem);
-  } catch (err) {
-    next(err);
-  }
-});
-
 //GET a user's cart
-router.get('/user/:userId/cart', async (req, res, next) => {
+router.get('/cart', requireToken, async (req, res, next) => {
   try {
-    const { userId } = req.params;
+    const userId = req.user.id;
     const order = await Order.findOne({
       where: {
         userId,
@@ -77,14 +86,24 @@ router.get('/user/:userId/cart', async (req, res, next) => {
   }
 });
 
-//POST a new item to cart
-router.post('/user/:userId/product/:productId', async (req, res, next) => {
+//GET single lineItem
+router.get('/:lineItemId', async (req, res, next) => {
   try {
-    const { userId, productId } = req.params;
+    const lineItem = await LineItem.findByPk(req.params.lineItemId);
+    res.json(lineItem);
+  } catch (err) {
+    next(err);
+  }
+});
+
+//POST a new item to cart
+router.post('/add-to-cart/:productId', requireToken, async (req, res, next) => {
+  try {
+    const { productId } = req.params;
     const product = await Product.findByPk(productId);
     const [cart, cartCreated] = await Order.findOrCreate({
       where: {
-        userId,
+        userId: req.user.id,
         status: 'NEW',
       },
     });
@@ -101,13 +120,39 @@ router.post('/user/:userId/product/:productId', async (req, res, next) => {
   }
 });
 
+router.put('/complete-order', requireToken, async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
+      where: {
+        userId: req.user.id,
+        status: 'NEW',
+      },
+    });
+    await order.update({ status: 'COMPLETED' });
+    res.json([]);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // update line-item
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', requireToken, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const item = await LineItem.findByPk(id);
-    await item.update(req.body);
-    res.json(item);
+    const order = await Order.findOne({
+      where: {
+        userId: req.user.id,
+        status: 'NEW',
+      },
+    });
+    const lineItem = await LineItem.findOne({
+      where: {
+        orderId: order.id,
+        id,
+      },
+    });
+    await lineItem.update(req.body);
+    res.json(lineItem);
   } catch (err) {
     next(err);
   }

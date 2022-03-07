@@ -11,9 +11,14 @@ import Sidebar from './components/Sidebar';
 import CartWidget from './components/CartWidget';
 import Order from './components/Order';
 import Checkout from './components/Checkout';
+import EditProductForm from './components/EditProductForm';
 
 class Routes extends Component {
   componentDidMount() {
+    const starterCart = JSON.stringify([]);
+    if (!window.localStorage.getItem('guestCart')) {
+      window.localStorage.setItem('guestCart', starterCart);
+    }
     this.props.loadInitialData();
   }
 
@@ -26,19 +31,26 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path='/checkout' component={Checkout} />
+
             <Route path='/cart' component={Order} />
             <Route path='/testcartwidget' component={CartWidget} />
             <Route path='/home' component={Home} />
+            <Route
+              path='/products/:productId/edit'
+              component={EditProductForm}
+            />
             <Route path='/products/:productId' component={SingleProduct} />
+
             <Route path='/products' component={AllProducts} />
-            <Route path='/admin/products' component={AdminAllProducts} />
             <Redirect to='/home' />
           </Switch>
         ) : (
           <Switch>
+            <Route path='/checkout' component={Checkout} />
             <Route path='/products/:productId' component={SingleProduct} />
             <Route exact path='/products' component={AllProducts} />
             <Route path='/' exact component={Login} />
+            <Route path='/cart' component={Order} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
           </Switch>

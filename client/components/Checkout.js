@@ -1,25 +1,50 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchCartItems, updateProduct } from '../store';
+import { fetchCartItems, purchaseProduct, completeOrder } from '../store';
 
 class Checkout extends React.Component {
   constructor() {
     super();
     this.initialState = {
       items: [],
+      thankYou: '',
     };
     this.state = { ...this.initialState };
   }
 
   async componentDidMount() {
-    await this.props.fetchCartItems(this.props.userId);
+    if (window.localStorage.getItem('token')) {
+      await this.props.fetchCartItems();
+      this.setState({
+        items: this.props.items,
+      });
+    } else {
+      this.setState({
+        items: [...JSON.parse(window.localStorage.getItem('guestCart'))],
+      });
+    }
+  }
+
+  async handleComplete(items) {
+    items.forEach(async (item) => {
+      await this.props.purchaseProduct(item.product.id, {
+        quantity: item.product.quantity - item.quantity,
+      });
+    });
+    if (window.localStorage.getItem('token')) {
+      await this.props.completeOrder();
+    } else {
+      window.localStorage.setItem('guestCart', JSON.stringify([]));
+    }
     this.setState({
-      items: this.props.items,
+      items: [],
+      thankYou: 'Order confirmed! Thank you for shopping with us!',
     });
   }
 
   render() {
     const { items } = this.state;
+    console.log(this.state);
     const total = items.reduce((acc, curr) => {
       return acc + curr.quantity * curr.price;
     }, 0);
@@ -38,15 +63,12 @@ class Checkout extends React.Component {
         <button
           type='button'
           onClick={async () => {
-            items.forEach(async (item) => {
-              await this.props.updateProduct(item.product.id, {
-                quantity: item.product.quantity - item.quantity,
-              });
-            });
+            this.handleComplete(items);
           }}
         >
           Confirm Order
         </button>
+        <h2>{this.state.thankYou}</h2>
       </div>
     );
   }
@@ -61,8 +83,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCartItems: (id) => dispatch(fetchCartItems(id)),
-    updateProduct: (id, updates) => dispatch(updateProduct(id, updates)),
+    fetchCartItems: () => dispatch(fetchCartItems()),
+    purchaseProduct: (id, updates) => dispatch(purchaseProduct(id, updates)),
+    completeOrder: () => dispatch(completeOrder()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

@@ -18,8 +18,96 @@ class Order extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.fetchCartItems(this.props.userId);
-    this.setState({ cartItems: this.props.cartItems });
+    if (window.localStorage.getItem('token')) {
+      await this.props.fetchCartItems(this.props.userId);
+      this.setState({ cartItems: this.props.cartItems });
+    } else {
+      this.setState({
+        cartItems: [...JSON.parse(window.localStorage.getItem('guestCart'))],
+      });
+    }
+  }
+
+  async handleDec(item) {
+    if (window.localStorage.getItem('token')) {
+      if (item.quantity > 1) {
+        await this.props.decrementItem(item);
+        this.setState((prevState) => ({
+          cartItems: prevState.cartItems.map((lineItem) => {
+            if (lineItem.id === item.id) {
+              return {
+                ...lineItem,
+                quantity: lineItem.quantity - 1,
+              };
+            } else {
+              return lineItem;
+            }
+          }),
+        }));
+      } else {
+        await this.props.destroyItem(item.id);
+        this.setState((prevState) => ({
+          cartItems: prevState.cartItems.filter(
+            (lineItem) => lineItem.id !== item.id
+          ),
+        }));
+      }
+    } else {
+      const guestCart = JSON.parse(window.localStorage.getItem('guestCart'));
+      const newCart = guestCart
+        .map((lineItem) => {
+          if (lineItem.id === item.id) {
+            return { ...lineItem, quantity: lineItem.quantity - 1 };
+          } else {
+            return lineItem;
+          }
+        })
+        .filter((lineItem) => lineItem.quantity > 0);
+      this.setState({ cartItems: [...newCart] });
+      window.localStorage.setItem('guestCart', JSON.stringify(newCart));
+    }
+  }
+
+  async handleInc(item) {
+    if (window.localStorage.getItem('token')) {
+      await this.props.addItemToCart(item.product.id);
+      this.setState((prevState) => ({
+        cartItems: prevState.cartItems.map((lineItem) => {
+          if (lineItem.id === item.id) {
+            return { ...lineItem, quantity: lineItem.quantity + 1 };
+          } else {
+            return lineItem;
+          }
+        }),
+      }));
+    } else {
+      const guestCart = JSON.parse(window.localStorage.getItem('guestCart'));
+      const newCart = guestCart.map((lineItem) => {
+        if (lineItem.id === item.id) {
+          return { ...lineItem, quantity: lineItem.quantity + 1 };
+        } else {
+          return lineItem;
+        }
+      });
+      this.setState({ cartItems: [...newCart] });
+      window.localStorage.setItem('guestCart', JSON.stringify(newCart));
+    }
+  }
+
+  async handleRemove(item) {
+    if (window.localStorage.getItem('token')) {
+      await this.props.destroyItem(item.id);
+      this.setState((prevState) => ({
+        cartItems: prevState.cartItems.filter(
+          (lineItem) => lineItem.id !== item.id
+        ),
+      }));
+    } else {
+      const guestCart = JSON.parse(window.localStorage.getItem('guestCart'));
+      const newCart = guestCart.filter((lineItem) => lineItem.id !== item.id);
+      this.setState({ cartItems: [...newCart] });
+      window.localStorage.setItem('guestCart', JSON.stringify(newCart));
+    }
   }
 
   render() {
@@ -35,28 +123,7 @@ class Order extends React.Component {
               <button
                 type="button"
                 onClick={async () => {
-                  if (item.quantity > 1) {
-                    await this.props.decrementItem(item);
-                    this.setState((prevState) => ({
-                      cartItems: prevState.cartItems.map((lineItem) => {
-                        if (lineItem.id === item.id) {
-                          return {
-                            ...lineItem,
-                            quantity: lineItem.quantity - 1,
-                          };
-                        } else {
-                          return lineItem;
-                        }
-                      }),
-                    }));
-                  } else {
-                    await this.props.destroyItem(item.id);
-                    this.setState((prevState) => ({
-                      cartItems: prevState.cartItems.filter(
-                        (lineItem) => lineItem.id !== item.id
-                      ),
-                    }));
-                  }
+                  this.handleDec(item);
                 }}
               >
                 -
@@ -64,19 +131,7 @@ class Order extends React.Component {
               <button
                 type="button"
                 onClick={async () => {
-                  await this.props.addItemToCart(
-                    this.props.userId,
-                    item.product.id
-                  );
-                  this.setState((prevState) => ({
-                    cartItems: prevState.cartItems.map((lineItem) => {
-                      if (lineItem.id === item.id) {
-                        return { ...lineItem, quantity: lineItem.quantity + 1 };
-                      } else {
-                        return lineItem;
-                      }
-                    }),
-                  }));
+                  this.handleInc(item);
                 }}
               >
                 +
@@ -84,12 +139,7 @@ class Order extends React.Component {
               <button
                 type="button"
                 onClick={async () => {
-                  await this.props.destroyItem(item.id);
-                  this.setState((prevState) => ({
-                    cartItems: prevState.cartItems.filter(
-                      (lineItem) => lineItem.id !== item.id
-                    ),
-                  }));
+                  this.handleRemove(item);
                 }}
               >
                 Remove From Cart
@@ -118,8 +168,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     fetchCartItems: (id) => dispatch(fetchCartItems(id)),
-    addItemToCart: (userId, productId) =>
-      dispatch(addItemToCart(userId, productId)),
+    addItemToCart: (productId) => dispatch(addItemToCart(productId)),
     destroyItem: (id) => dispatch(destroyItem(id)),
     decrementItem: (item) => dispatch(decrementItem(item)),
   };

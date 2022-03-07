@@ -1,13 +1,26 @@
 const router = require('express').Router();
 const res = require('express/lib/response');
 const {
-  models: { Product },
+  models: { Product, User, Order },
 } = require('../db');
+const LineItem = require('../db/models/LineItem');
 module.exports = router;
+
+const requireToken = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+    const user = await User.findByToken(token);
+    req.user = user.dataValues;
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
 
 //GET all products
 router.get('/', async (req, res, next) => {
   try {
+    console.log(req.user);
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {
@@ -49,11 +62,31 @@ router.get('/:productId', async (req, res, next) => {
   }
 });
 
-router.put('/:productId', async (req, res, next) => {
+router.put('/purchase-item/:productId', async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.productId);
-    await product.update(req.body);
-    res.json(product);
+    if (req.headers.authorization === 'ITEM_PURCHASED') {
+      const id = req.params.productId;
+      const product = await Product.findByPk(id);
+      await product.update(req.body);
+      res.json(product);
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put(`/:productId`, requireToken, async (req, res, next) => {
+  try {
+    if (req.user.type === 'ADMIN') {
+      const { productId } = req.params;
+      const product = await Product.findByPk(productId);
+      await product.update(req.body);
+      res.json(product);
+    } else {
+      throw new Error();
+    }
   } catch (err) {
     next(err);
   }

@@ -1,5 +1,9 @@
 const router = require('express').Router();
-module.exports = router;
+const {
+  models: { User },
+} = require('../db');
+
+
 
 router.use('/line-items', require('./line-items'));
 router.use('/orders', require('./orders'));
@@ -11,3 +15,5 @@ router.use((req, res, next) => {
   error.status = 404;
   next(error);
 });
+
+module.exports = router
