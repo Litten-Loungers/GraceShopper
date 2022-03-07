@@ -1,10 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-<<<<<<< HEAD
-import { fetchCartItems, updateProduct } from '../store';
-=======
 import { fetchCartItems, purchaseProduct, completeOrder } from '../store';
->>>>>>> main
 
 class Checkout extends React.Component {
   constructor() {
@@ -72,14 +68,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-<<<<<<< HEAD
-    fetchCartItems: (id) => dispatch(fetchCartItems(id)),
-    updateProduct: (id, updates) => dispatch(updateProduct(id, updates)),
-=======
     fetchCartItems: () => dispatch(fetchCartItems()),
     purchaseProduct: (id, updates) => dispatch(purchaseProduct(id, updates)),
     completeOrder: () => dispatch(completeOrder()),
->>>>>>> main
   };
 };
 
