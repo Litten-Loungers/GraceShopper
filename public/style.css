@@ -44,14 +44,14 @@ form div {
 }
 
 .singleProduct {
-  height: 4%;
-  width: 45em;
-  margin-bottom: 1em;
-  margin-left: 1em;
-
-
   display: flex;
   flex-direction: row;
+  height: auto;
+  width: auto;
+  /* margin-bottom: 1em;
+  margin-left: 1em; */
+ 
+
   column-gap: 15em;
   border: 1px solid red;
 
@@ -79,14 +79,22 @@ form div {
 
 .moviePic {
   display: flex;
+  justify-content: flex-start;
   flex-direction: row;
   text-align: center;
+  margin-right: auto
 }
 
-.moviePic > img {
-  height: 90%;
-  margin: auto;
-  margin-left: 0.5em;
+/* .moviePic > img {
+ max-width: 100%;
+ height: auto;
+margin-left: 0.5em;
+} */
+
+#poster{
+  max-width: 50%;
+  object-fit: contain;
+ height: auto;
 }
 
 .moviePic > p {
