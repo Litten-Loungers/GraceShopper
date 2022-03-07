@@ -19,7 +19,6 @@ const requireToken = async (req, res, next) => {
 //GET all products
 router.get('/', async (req, res, next) => {
   try {
-    console.log(req.user);
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {
@@ -37,15 +36,19 @@ router.post('/', async (req, res, next) => {
 });
 
 //DELETE single product
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', requireToken, async (req, res, next) => {
   const id = Number(req.params.productId);
   try {
-    await Product.destroy({
-      where: {
-        id: id,
-      },
-    });
-    res.send(204);
+    if (req.user.type === 'ADMIN') {
+      await Product.destroy({
+        where: {
+          id: id,
+        },
+      });
+      res.send(204);
+    } else {
+      throw new Error();
+    }
   } catch (error) {
     next(error);
   }
@@ -77,9 +80,6 @@ router.put('/purchase-item/:productId', async (req, res, next) => {
 });
 
 router.put(`/:productId`, requireToken, async (req, res, next) => {
-  console.log(req.body);
-  console.log(req.headers);
-  console.log(req.user);
   try {
     if (req.user.type === 'ADMIN') {
       const { productId } = req.params;

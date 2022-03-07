@@ -32,6 +32,7 @@ class Routes extends Component {
         <Sidebar />
         {isLoggedIn ? (
           <Switch>
+            <Route path='/admin/users' component={Users} />
             <Route path='/checkout' component={Checkout} />
             <Route path='/cart' component={Order} />
             <Route path='/testcartwidget' component={CartWidget} />

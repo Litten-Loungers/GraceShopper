@@ -17,23 +17,23 @@ const requireToken = async (req, res, next) => {
 };
 
 //GET all lineItems
-router.get('/', async (req, res, next) => {
-  try {
-    const lineItems = await LineItem.findAll();
-    res.json(lineItems);
-  } catch (err) {
-    next(err);
-  }
-});
+// router.get('/', async (req, res, next) => {
+//   try {
+//     const lineItems = await LineItem.findAll();
+//     res.json(lineItems);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 //POST single lineItem
-router.post('/', async (req, res, next) => {
-  try {
-    res.status(201).send(await LineItem.create(req.body));
-  } catch (error) {
-    next(error);
-  }
-});
+// router.post('/', async (req, res, next) => {
+//   try {
+//     res.status(201).send(await LineItem.create(req.body));
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 //DELETE single lineItem from cart
 router.delete('/:lineItemId', requireToken, async (req, res, next) => {
@@ -87,14 +87,14 @@ router.get('/cart', requireToken, async (req, res, next) => {
 });
 
 //GET single lineItem
-router.get('/:lineItemId', async (req, res, next) => {
-  try {
-    const lineItem = await LineItem.findByPk(req.params.lineItemId);
-    res.json(lineItem);
-  } catch (err) {
-    next(err);
-  }
-});
+// router.get('/:lineItemId', async (req, res, next) => {
+//   try {
+//     const lineItem = await LineItem.findByPk(req.params.lineItemId);
+//     res.json(lineItem);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 //POST a new item to cart
 router.post('/add-to-cart/:productId', requireToken, async (req, res, next) => {

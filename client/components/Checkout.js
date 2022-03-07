@@ -44,7 +44,6 @@ class Checkout extends React.Component {
 
   render() {
     const { items } = this.state;
-    console.log(this.state);
     const total = items.reduce((acc, curr) => {
       return acc + curr.quantity * curr.price;
     }, 0);

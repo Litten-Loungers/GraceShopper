@@ -11,7 +11,10 @@ class AdminAllProducts extends React.Component {
   }
 
   async removeProduct(productId) {
-    await axios.delete(`/api/products/${productId}`);
+    const token = window.localStorage.getItem('token');
+    await axios.delete(`/api/products/${productId}`, {
+      headers: { authorization: token },
+    });
     await this.props.fetchProducts();
   }
 
@@ -19,8 +22,6 @@ class AdminAllProducts extends React.Component {
     await this.props.fetchProducts();
   }
   render() {
-    console.log(this.props.userId);
-    console.log(this.state);
     const { products } = this.props;
     return (
       <div>
@@ -33,7 +34,7 @@ class AdminAllProducts extends React.Component {
           </Link>
         </div>
         <hr />
-        <div className='all-products'>
+        <div className="all-products">
           {products
             .sort((x, y) => {
               return x.id - y.id;
@@ -50,7 +51,7 @@ class AdminAllProducts extends React.Component {
                     <button>Edit</button>
                   </Link>
                   <button
-                    type='button'
+                    type="button"
                     onClick={() => this.removeProduct(product.id)}
                   >
                     Remove
