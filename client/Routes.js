@@ -10,7 +10,9 @@ import Sidebar from './components/Sidebar';
 import CartWidget from './components/CartWidget';
 import Order from './components/Order';
 import Checkout from './components/Checkout';
-import Users from './components/Users';
+import EditProductForm from './components/EditProductForm';
+import Users from './components/Users'
+
 
 class Routes extends Component {
   componentDidMount() {
@@ -30,16 +32,23 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path="/checkout" component={Checkout} />
+
             <Route path="/cart" component={Order} />
             <Route path="/testcartwidget" component={CartWidget} />
             <Route path="/home" component={Home} />
+            <Route
+              path="/products/:productId/edit"
+              component={EditProductForm}
+            />
             <Route path="/products/:productId" component={SingleProduct} />
+
             <Route path="/products" component={AllProducts} />
             <Route path="/users" component={Users} />
             <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>
+            <Route path="/checkout" component={Checkout} />
             <Route path="/products/:productId" component={SingleProduct} />
             <Route exact path="/products" component={AllProducts} />
             <Route path="/" exact component={Login} />

@@ -13,14 +13,38 @@ class Checkout extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.fetchCartItems();
+    if (window.localStorage.getItem('token')) {
+      await this.props.fetchCartItems();
+      this.setState({
+        items: this.props.items,
+      });
+    } else {
+      this.setState({
+        items: [...JSON.parse(window.localStorage.getItem('guestCart'))],
+      });
+    }
+  }
+
+  async handleComplete(items) {
+    items.forEach(async (item) => {
+      await this.props.purchaseProduct(item.product.id, {
+        quantity: item.product.quantity - item.quantity,
+      });
+    });
+    if (window.localStorage.getItem('token')) {
+      await this.props.completeOrder();
+    } else {
+      window.localStorage.setItem('guestCart', JSON.stringify([]));
+    }
     this.setState({
-      items: this.props.items,
+      items: [],
+      thankYou: 'Order confirmed! Thank you for shopping with us!',
     });
   }
 
   render() {
     const { items } = this.state;
+    console.log(this.state);
     const total = items.reduce((acc, curr) => {
       return acc + curr.quantity * curr.price;
     }, 0);
@@ -39,16 +63,7 @@ class Checkout extends React.Component {
         <button
           type="button"
           onClick={async () => {
-            items.forEach(async (item) => {
-              await this.props.purchaseProduct(item.product.id, {
-                quantity: item.product.quantity - item.quantity,
-              });
-            });
-            await this.props.completeOrder();
-            this.setState({
-              items: [],
-              thankYou: 'Order confirmed! Thank you for shopping with us!',
-            });
+            this.handleComplete(items);
           }}
         >
           Confirm Order
