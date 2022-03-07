@@ -4,11 +4,18 @@ import { Link } from 'react-router-dom';
 
 export const Sidebar = () => {
   return (
-    <div className="sidebar">
-      <p>FILTER BY TYPE</p>
-
-      <Link to="/cart">IN CART</Link>
-      <Link to="/checkout">CHECK OUT</Link>
+    <div className='sidebar'>
+      <div>FILTER BY TYPE</div>
+      <div>
+        <Link to='/cart'>IN CART</Link>
+      </div>
+      <div>
+        <Link to='/checkout'>CHECK OUT</Link>
+      </div>
+      <div>
+        {' '}
+        <Link to='/admin/products'>MANAGE PRODUCTS</Link>
+      </div>
     </div>
   );
 };

@@ -23,42 +23,42 @@ class AdminAllProducts extends React.Component {
     console.log(this.state);
     const { products } = this.props;
     return (
-      <div className='all-products'>
-        {products
-          .sort((x, y) => {
-            return x.id - y.id;
-          })
-          .map((product) => {
-            return (
-              <div key={product.id}>
-                <Link to={`/products/${product.id}`}>
+      <div>
+        <div>
+          <h3>Admin / Manage Products: </h3>
+        </div>
+        <div>
+          <Link to={`/admin/products`}>
+            <button>Add Product</button>
+          </Link>
+        </div>
+        <hr />
+        <div className='all-products'>
+          {products
+            .sort((x, y) => {
+              return x.id - y.id;
+            })
+            .map((product) => {
+              return (
+                <div key={product.id}>
                   <h2>Name: {product.name}</h2>
-                </Link>
-                <img src={product.imageURL} />
-                <p>Price: {product.price}</p>
-                <p>{product.description}</p>
-                <p>Quantity: {product.quantity}</p>
-                <button>Edit</button>
-                <button
-                  type='button'
-                  onClick={() => this.removeProduct(product.id)}
-                >
-                  Remove
-                </button>
-                {/* <button
-                  type='button'
-                  onClick={async () => {
-                    await this.props.addItemToCart(
-                      this.props.userId,
-                      product.id
-                    );
-                  }}
-                >
-                  Add To Cart
-                </button> */}
-              </div>
-            );
-          })}
+                  <img src={product.imageURL} />
+                  <p>Price: $ {product.price}</p>
+                  <p>{product.description}</p>
+                  <p>Quantity: {product.quantity}</p>
+                  <Link to={`/admin/products/${product.id}/edit`}>
+                    <button>Edit</button>
+                  </Link>
+                  <button
+                    type='button'
+                    onClick={() => this.removeProduct(product.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              );
+            })}
+        </div>
       </div>
     );
   }

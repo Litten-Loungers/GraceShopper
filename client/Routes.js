@@ -31,16 +31,15 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route path='/checkout' component={Checkout} />
-
             <Route path='/cart' component={Order} />
             <Route path='/testcartwidget' component={CartWidget} />
             <Route path='/home' component={Home} />
             <Route
-              path='/products/:productId/edit'
+              path='/admin/products/:productId/edit'
               component={EditProductForm}
             />
             <Route path='/products/:productId' component={SingleProduct} />
-
+            <Route path='/admin/products' component={AdminAllProducts} />
             <Route path='/products' component={AllProducts} />
             <Redirect to='/home' />
           </Switch>
