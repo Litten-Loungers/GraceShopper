@@ -61,7 +61,7 @@ class Checkout extends React.Component {
           );
         })}
         <button
-          type="button"
+          type='button'
           onClick={async () => {
             this.handleComplete(items);
           }}
