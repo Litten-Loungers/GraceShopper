@@ -53,7 +53,7 @@ class AllProducts extends React.Component {
                           if (updateItem >= 0) {
                             cart[updateItem].quantity++;
                           } else {
-                            cart.push({ id: product.id, quantity: 1, product });
+                            cart.push({ id: product.id, quantity: 1, price: product.price, product });
                           }
                           const guestCart = JSON.stringify(cart);
                           window.localStorage.setItem('guestCart', guestCart);
