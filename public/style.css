@@ -9,6 +9,7 @@ a {
 label {
   display: block;
 }
+
 nav {
   background-color: #be0000;
   height: 8em;
@@ -43,33 +44,76 @@ form div {
 }
 
 .singleProduct {
-  height: 4%;
-  width: 72%;
-  margin-bottom: 1em;
-  margin-left: 1em;
-
-
   display: flex;
   flex-direction: row;
+  height: auto;
+  width: 110em;
+  padding: 25px;
+  margin: 15px;
+
+  /* margin-bottom: 1em;
+  margin-left: 1em; */
+ 
+
   column-gap: 15em;
   border: 1px solid red;
 
-  color: white;
+  color: black;
   background-color: antiquewhite;
   font-family: 'Roboto', sans-serif;
+}
 
+.singleOrder{
+  height: auto;
+  width: auto;
+  padding: 25px;
+  margin: 15px; 
+  text-align: center;
+
+  color: black;
+  border: 1px solid red;
+  background-color: antiquewhite;
+  font-family: 'Roboto', sans-serif;
+}
+
+.singlePerson{
+  height: auto;
+  width: 20vw;
+  margin: 10px;
+
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  border: 2px solid red;
+
+  color: black;
+  background-color: antiquewhite;
+  font-family: 'Roboto', sans-serif;
+}
+
+#personPhoto {
+  height: 300px;
+  width: auto;
 }
 
 .moviePic {
   display: flex;
+  justify-content: flex-start;
   flex-direction: row;
   text-align: center;
+  margin-right: auto
 }
 
-.moviePic > img {
-  height: 90%;
-  margin: auto;
-  margin-left: 0.5em;
+/* .moviePic > img {
+ max-width: 100%;
+ height: auto;
+margin-left: 0.5em;
+} */
+
+#poster{
+  max-width: 50%;
+  object-fit: contain;
+ height: auto;
 }
 
 .moviePic > p {
@@ -82,6 +126,7 @@ form div {
   text-align: center;
   flex-direction: column;
   align-self: center;
+  margin-left: auto;
 }
 
 .routes {
@@ -100,4 +145,10 @@ form div {
   align-self: flex-start;
 
   background-color: #be0000;
+}
+
+.all-users{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }

@@ -88,4 +88,5 @@ const mapDispatchToProps = (dispatch) => {
     completeOrder: () => dispatch(completeOrder()),
   };
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
