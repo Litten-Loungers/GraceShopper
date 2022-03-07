@@ -12,6 +12,7 @@ import CartWidget from './components/CartWidget';
 import Order from './components/Order';
 import Checkout from './components/Checkout';
 import EditProductForm from './components/EditProductForm';
+import AddProductForm from './components/AddProductForm';
 import Users from './components/Users';
 
 class Routes extends Component {
@@ -36,8 +37,14 @@ class Routes extends Component {
             <Route path='/testcartwidget' component={CartWidget} />
             <Route path='/home' component={Home} />
             <Route
+              exact
               path='/admin/products/:productId/edit'
               component={EditProductForm}
+            />
+            <Route
+              exact
+              path='/admin/products/add'
+              component={AddProductForm}
             />
             <Route path='/products/:productId' component={SingleProduct} />
             <Route path='/admin/products' component={AdminAllProducts} />
