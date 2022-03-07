@@ -16,8 +16,6 @@ class Users extends React.Component {
     this.setState({ users: this.props.users });
   }
   render() {
-    console.log(this.props.userId);
-    console.log(this.state);
     const { users } = this.state;
     return (
       <div className="all-users">
@@ -27,9 +25,12 @@ class Users extends React.Component {
           })
           .map((users) => {
             return (
-              <div className='singlePerson' key={users.id}>
+              <div className="singlePerson" key={users.id}>
                 <Link to={`/users/${users.id}`}>
-                  <img id='personPhoto' src="https://st3.depositphotos.com/4111759/13425/v/1600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg" />
+                  <img
+                    id="personPhoto"
+                    src="https://st3.depositphotos.com/4111759/13425/v/1600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg"
+                  />
                   <h2>{users.username}</h2>
                 </Link>
               </div>
@@ -42,13 +43,13 @@ class Users extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    users: state.users
+    users: state.users,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsers: () => dispatch(fetchUsers())
+    getUsers: () => dispatch(fetchUsers()),
   };
 };
 

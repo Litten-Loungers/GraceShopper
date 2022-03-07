@@ -112,7 +112,6 @@ class Order extends React.Component {
 
   render() {
     const { cartItems } = this.state;
-    console.log(cartItems);
     return (
       <div>
         {cartItems.map((item, idx) => {

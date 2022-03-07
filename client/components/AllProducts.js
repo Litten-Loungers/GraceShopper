@@ -16,8 +16,6 @@ class AllProducts extends React.Component {
     this.setState({ products: this.props.products });
   }
   render() {
-    console.log(this.props.userId);
-    console.log(this.state);
     const { products } = this.state;
     return (
       <div className="all-products">
@@ -53,7 +51,12 @@ class AllProducts extends React.Component {
                           if (updateItem >= 0) {
                             cart[updateItem].quantity++;
                           } else {
-                            cart.push({ id: product.id, quantity: 1, price: product.price, product });
+                            cart.push({
+                              id: product.id,
+                              quantity: 1,
+                              price: product.price,
+                              product,
+                            });
                           }
                           const guestCart = JSON.stringify(cart);
                           window.localStorage.setItem('guestCart', guestCart);
