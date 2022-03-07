@@ -19,7 +19,6 @@ const requireToken = async (req, res, next) => {
 //GET all products
 router.get('/', async (req, res, next) => {
   try {
-    console.log(req.user);
     const products = await Product.findAll();
     res.json(products);
   } catch (err) {
@@ -81,9 +80,6 @@ router.put('/purchase-item/:productId', async (req, res, next) => {
 });
 
 router.put(`/:productId`, requireToken, async (req, res, next) => {
-  console.log(req.body);
-  console.log(req.headers);
-  console.log(req.user);
   try {
     if (req.user.type === 'ADMIN') {
       const { productId } = req.params;

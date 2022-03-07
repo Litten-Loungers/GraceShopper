@@ -22,8 +22,6 @@ class AdminAllProducts extends React.Component {
     await this.props.fetchProducts();
   }
   render() {
-    console.log(this.props.userId);
-    console.log(this.state);
     const { products } = this.props;
     return (
       <div>
