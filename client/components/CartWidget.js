@@ -13,14 +13,14 @@ class CartWidget extends React.Component {
   }
 
   async componentDidMount() {
-    await this.props.fetchCartItems(this.props.userId);
+    await this.props.fetchCartItems();
     this.setState({ cartItems: this.props.cartItems });
   }
 
   render() {
     return (
       <Link to="/cart">
-        <div>Items in cart: {this.state.cartItems.length}</div>
+        <div>Items in cart: {this.props.cartItems.length}</div>
       </Link>
     );
   }
@@ -36,7 +36,7 @@ const mapState = (state) => {
 // ! add thunk creator to fetchCartItems for current userId and NEW order status
 const mapDispatch = (dispatch) => {
   return {
-    fetchCartItems: (id) => dispatch(fetchCartItems(id)),
+    fetchCartItems: () => dispatch(fetchCartItems()),
   };
 };
 

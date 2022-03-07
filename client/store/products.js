@@ -30,9 +30,26 @@ export const fetchProducts = () => {
   };
 };
 
-export const updateProduct = (id, updates) => {
+export const updateProduct = (productId, product) => {
   return async (dispatch) => {
-    const { data } = await axios.put(`/api/products/${id}`, updates);
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(`api/products/${productId}`, product, {
+      headers: { authorization: token },
+    });
+    dispatch(update(data));
+  };
+};
+
+export const purchaseProduct = (id, updates) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const { data } = await axios.put(
+      `/api/products/purchase-item/${id}`,
+      updates,
+      {
+        headers: { authorization: token },
+      }
+    );
     dispatch(update(data));
   };
 };
