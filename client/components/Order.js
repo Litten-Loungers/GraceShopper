@@ -117,7 +117,7 @@ class Order extends React.Component {
       <div>
         {cartItems.map((item, idx) => {
           return (
-            <div key={`id_${idx}`}>
+            <div className="singleOrder" key={`id_${idx}`}>
               <p>ORDER ID: {item.orderId}</p>
               <p>ITEM QUANTITY: {item.quantity}</p>{' '}
               <button

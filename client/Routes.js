@@ -12,6 +12,7 @@ import CartWidget from './components/CartWidget';
 import Order from './components/Order';
 import Checkout from './components/Checkout';
 import EditProductForm from './components/EditProductForm';
+import Users from './components/Users';
 
 class Routes extends Component {
   componentDidMount() {
@@ -64,6 +65,7 @@ const mapState = (state) => {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
     isLoggedIn: !!state.auth.id,
+    isAdmin: state.auth.type === 'ADMIN',
   };
 };
 
