@@ -48,6 +48,9 @@ form div {
   flex-direction: row;
   height: auto;
   width: 110em;
+  padding: 25px;
+  margin: 15px;
+
   /* margin-bottom: 1em;
   margin-left: 1em; */
  
@@ -55,26 +58,42 @@ form div {
   column-gap: 15em;
   border: 1px solid red;
 
-  color: white;
+  color: black;
   background-color: antiquewhite;
   font-family: 'Roboto', sans-serif;
+}
 
+.singleOrder{
+  height: auto;
+  width: auto;
+  padding: 25px;
+  margin: 15px; 
+  text-align: center;
+
+  color: black;
+  border: 1px solid red;
+  background-color: antiquewhite;
+  font-family: 'Roboto', sans-serif;
 }
 
 .singlePerson{
-  height: 90px;
-  width: 72vw;
+  height: auto;
+  width: 20vw;
+  margin: 10px;
 
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  /* flex-direction: row; */
-  /* column-gap: 15em; */
-  border: 10px dotted red;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  border: 2px solid red;
 
-  color: white;
+  color: black;
   background-color: antiquewhite;
   font-family: 'Roboto', sans-serif;
+}
+
+#personPhoto {
+  height: 300px;
+  width: auto;
 }
 
 .moviePic {
