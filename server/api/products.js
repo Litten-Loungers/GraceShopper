@@ -37,15 +37,19 @@ router.post('/', async (req, res, next) => {
 });
 
 //DELETE single product
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', requireToken, async (req, res, next) => {
   const id = Number(req.params.productId);
   try {
-    await Product.destroy({
-      where: {
-        id: id,
-      },
-    });
-    res.send(204);
+    if (req.user.type === 'ADMIN') {
+      await Product.destroy({
+        where: {
+          id: id,
+        },
+      });
+      res.send(204);
+    } else {
+      throw new Error();
+    }
   } catch (error) {
     next(error);
   }
