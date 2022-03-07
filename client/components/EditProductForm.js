@@ -27,7 +27,8 @@ export default function EditProductForm() {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    dispatch(updateProduct(singleProduct.id, product));
+    console.log(product);
+    dispatch(updateProduct(product.id, product));
   }
 
   return (

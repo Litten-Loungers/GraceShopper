@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const res = require('express/lib/response');
 const {
   models: { Product, User, Order },
 } = require('../db');
@@ -78,6 +77,9 @@ router.put('/purchase-item/:productId', async (req, res, next) => {
 });
 
 router.put(`/:productId`, requireToken, async (req, res, next) => {
+  console.log(req.body);
+  console.log(req.headers);
+  console.log(req.user);
   try {
     if (req.user.type === 'ADMIN') {
       const { productId } = req.params;

@@ -18,11 +18,11 @@ async function seed() {
     User.create({ username: 'cody', password: '123' }),
     User.create({ username: 'murphy', password: '123' }),
     User.create({ username: 'kevin', password: '1234' }),
-    User.create({ username: 'jonathan', password: '12345' }),
-    User.create({ username: 'lucas', password: '123456' }),
-    User.create({ username: 'konstantin', password: '1234567' }),
-    User.create({ username: 'bart', password: '12345678' }),
-    User.create({ username: 'alfred', password: '123456789' }),
+    User.create({ username: 'jonathan', password: '12345', type: "ADMIN" }),
+    User.create({ username: 'lucas', password: '123456', type: "ADMIN" }),
+    User.create({ username: 'konstantin', password: '1234567', type: "ADMIN" }),
+    User.create({ username: 'bart', password: '12345678', type: "ADMIN" }),
+    User.create({ username: 'alfred', password: '123456789', type: "ADMIN" }),
   ]);
 
   // Creating Products
