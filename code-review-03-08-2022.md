@@ -4,7 +4,6 @@
 
 - RequireToken middleware should be in one place, don't copy and paste code
 - Don't leave commented out code in main. If you need to, leave clear `// TODO` comments about why it's being left
-- AllProducts and AdminAllProducts look like a component was copy/pasted and modified. Think about what's common about these and what's different, how could you reduce code duplication?
 - AdminAllProducts/AllProducts has a lot of complex code inside the JSX in an onClick handler, this is really hard to read and should be moved into a function.
 - I would like to have seen some more React Hooks components, it would probably make some of these larger components simpler. If you have time, every team member should pick one component and try to convert it to hooks.
 - several components contain local state AND redux state for the same information, you only need state stored in one place.
