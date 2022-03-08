@@ -1,19 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import axios from 'axios';
-// import { fetchRobots } from '../redux/robots';
-// import { fetchProjects } from '../redux/projects';
+import axios from 'axios';
 
 export class AddProductForm extends React.Component {
   constructor() {
     super();
     this.state = {
       name: '',
-      price: '',
+      price: 0,
       description: '',
       imageUrl: '',
-      quantity: '',
-      available: '',
+      quantity: 1,
+      available: true,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -26,17 +24,33 @@ export class AddProductForm extends React.Component {
     });
   }
 
-  handleSubmit(evt) {
-    evt.preventDefault();
-    console.log(product);
-    dispatch(updateProduct(product.id, product));
+  async handleSubmit(event) {
+    event.preventDefault(event);
+    await axios.post('/api/products/', { ...this.state });
+    this.setState({
+      name: '',
+      price: 0,
+      description: '',
+      imageUrl: '',
+      quantity: 1,
+      available: true,
+    });
+    this.props.history.push(`/admin/products`);
   }
 
   render() {
+    console.log('ADD PRODUCT RENDER');
     return (
       <div className='add-product-form'>
-        <form id='add-product-form' onSubmit={this.handleSubmit()}>
-          <label htmlFor='name'>Name </label>
+        <div>
+          <h3>Admin / Add Product: </h3>
+        </div>
+        <hr />
+        <form
+          id='add-product-form'
+          onSubmit={(event) => this.handleSubmit(event)}
+        >
+          <label htmlFor='name'>Name: </label>
           <input
             type='text'
             name='name'
@@ -44,7 +58,7 @@ export class AddProductForm extends React.Component {
             value={this.state.name}
           />
 
-          <label htmlFor='price'>Price </label>
+          <label htmlFor='price'>Price: </label>
           <input
             type='text'
             name='price'
@@ -52,14 +66,14 @@ export class AddProductForm extends React.Component {
             value={this.state.price}
           />
 
-          <label htmlFor='description'>Description </label>
+          <label htmlFor='description'>Description: </label>
           <textarea
             name='description'
             onChange={(event) => this.handleChange(event)}
             value={this.state.description}
           />
 
-          <label htmlFor='imageURL'>ImageURL </label>
+          <label htmlFor='imageURL'>ImageURL: </label>
           <input
             type='text'
             name='imageURL'
@@ -67,15 +81,14 @@ export class AddProductForm extends React.Component {
             value={this.state.imageURL}
           />
 
-          <label htmlFor='quantity'>Quantity </label>
+          <label htmlFor='quantity'>Quantity: </label>
           <input
             name='quantity'
-            onChange={handleChange}
             onChange={(event) => this.handleChange(event)}
             value={this.state.quantity}
           />
 
-          <label htmlFor='available'>Available </label>
+          <label htmlFor='available'>Available: </label>
           <select
             name='available'
             onChange={(event) => this.handleChange(event)}
@@ -84,21 +97,15 @@ export class AddProductForm extends React.Component {
             <option value={true}>Available</option>
             <option value={false}>Unavailable</option>
           </select>
-
-          <button type='submit' className='submit-btn'>
-            Add
-          </button>
+          <div>
+            <button type='submit' className='submit-btn'>
+              Add
+            </button>
+          </div>
         </form>
       </div>
     );
   }
 }
 
-const mapDispatch = (dispatch) => {
-  return {
-    // loadRobots: () => dispatch(fetchRobots()),
-    // loadProjects: () => dispatch(fetchProjects()),
-  };
-};
-
-export default connect(null, mapDispatch)(AddProductForm);
+export default connect(null)(AddProductForm);

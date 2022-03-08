@@ -31,39 +31,48 @@ export default function EditProductForm() {
   }
 
   return (
-    <div className="edit-product-form">
-      <form id="edit-product-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">Name </label>
-        <input name="name" onChange={handleChange} value={product.name} />
-        <label htmlFor="price">Price </label>
-        <input name="price" onChange={handleChange} value={product.price} />
-        <label htmlFor="description">Description </label>
+    <div className='edit-product-form'>
+      <div>
+        <h3>Admin / Add Product: </h3>
+      </div>
+      <hr />
+      <form id='edit-product-form' onSubmit={handleSubmit}>
+        <label htmlFor='name'>Name: </label>
+        <input name='name' onChange={handleChange} value={product.name} />
+        <label htmlFor='price'>Price: </label>
+        <input name='price' onChange={handleChange} value={product.price} />
+        <label htmlFor='description'>Description: </label>
         <input
-          name="description"
+          name='description'
           onChange={handleChange}
           value={product.description}
         />
-        <label htmlFor="imageURL">ImageURL </label>
+        <label htmlFor='imageURL'>ImageURL: </label>
         <input
-          name="imageURL"
+          name='imageURL'
           onChange={handleChange}
           value={product.imageURL}
         />
-        <label htmlFor="quantity">Quantity </label>
+        <label htmlFor='quantity'>Quantity: </label>
         <input
-          name="quantity"
+          name='quantity'
           onChange={handleChange}
           value={product.quantity}
         />
-        <label htmlFor="available">Available </label>
-        <input
-          name="available"
+        <label htmlFor='available'>Available: </label>
+        <select
+          name='available'
           onChange={handleChange}
           value={product.available}
-        />
-        <button type="submit" className="submit-btn">
-          Save Changes
-        </button>
+        >
+          <option value={true}>Available</option>
+          <option value={false}>Unavailable</option>
+        </select>
+        <div>
+          <button type='submit' className='submit-btn'>
+            Save
+          </button>
+        </div>
       </form>
     </div>
   );
