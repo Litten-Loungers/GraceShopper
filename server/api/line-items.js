@@ -112,8 +112,15 @@ router.post('/add-to-cart/:productId', requireToken, async (req, res, next) => {
         orderId: cart.id,
         productId,
       },
+      include: {
+        model: Product,
+      },
     });
-    await item.update({ quantity: item.quantity + 1, price: product.price });
+    await item.update({
+      quantity: item.quantity + 1,
+      price: product.price,
+      product: product,
+    });
     res.json([item, created]);
   } catch (err) {
     next(err);

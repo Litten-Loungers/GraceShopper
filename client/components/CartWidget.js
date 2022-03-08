@@ -1,57 +1,22 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchCartItems } from '../store';
+import { fetchCartItems, fetchLocalCartItems } from '../store';
+import { useSelector, useDispatch } from 'react-redux';
 
-class CartWidget extends React.Component {
-  constructor() {
-    super();
-    this.initialState = {
-      cartItems: [],
-    };
-    this.state = { ...this.initialState };
-  }
-
-  async componentDidMount() {
-    if (window.localStorage.getItem('token')) {
-      await this.props.fetchCartItems();
-      this.setState({ cartItems: this.props.cartItems });
+export default function CartWidget() {
+  const dispatch = useDispatch();
+  const cartCount = useSelector((state) => state.cartItems.length);
+  const loggedIn = useSelector((state) => !!state.auth.id);
+  useEffect(() => {
+    if (loggedIn) {
+      dispatch(fetchCartItems());
     } else {
-      this.setState({
-        cartItems: [...JSON.parse(window.localStorage.getItem('guestCart'))],
-      });
+      dispatch(fetchLocalCartItems());
     }
-  }
-
-  render() {
-    if (window.localStorage.getItem('token')) {
-      return (
-        <Link to="/cart">
-          <div>Items in cart: {this.props.cartItems.length}</div>
-        </Link>
-      );
-    } else {
-      return (
-        <Link to="/cart">
-          <div>Items in cart: {this.state.cartItems.length}</div>
-        </Link>
-      );
-    }
-  }
+  }, [loggedIn]);
+  return (
+    <Link to="/cart">
+      <div>Items in cart: {cartCount}</div>
+    </Link>
+  );
 }
-
-const mapState = (state) => {
-  return {
-    cartItems: state.cartItems,
-    userId: state.auth.id,
-  };
-};
-
-// ! add thunk creator to fetchCartItems for current userId and NEW order status
-const mapDispatch = (dispatch) => {
-  return {
-    fetchCartItems: () => dispatch(fetchCartItems()),
-  };
-};
-
-export default connect(mapState, mapDispatch)(CartWidget);
