@@ -114,13 +114,17 @@ class Order extends React.Component {
     const { cartItems } = this.state;
     return (
       <div>
+        <div>
+          <Link to='/checkout'>
+            <button>Check Out</button>
+          </Link>
+        </div>
         {cartItems.map((item, idx) => {
           return (
-            <div className="singleOrder" key={`id_${idx}`}>
-              <p>ORDER ID: {item.orderId}</p>
+            <div className='singleOrder' key={`id_${idx}`}>
               <p>ITEM QUANTITY: {item.quantity}</p>{' '}
               <button
-                type="button"
+                type='button'
                 onClick={async () => {
                   this.handleDec(item);
                 }}
@@ -128,7 +132,7 @@ class Order extends React.Component {
                 -
               </button>
               <button
-                type="button"
+                type='button'
                 onClick={async () => {
                   this.handleInc(item);
                 }}
@@ -136,7 +140,7 @@ class Order extends React.Component {
                 +
               </button>
               <button
-                type="button"
+                type='button'
                 onClick={async () => {
                   this.handleRemove(item);
                 }}

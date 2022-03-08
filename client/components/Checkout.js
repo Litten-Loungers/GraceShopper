@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchCartItems, purchaseProduct, completeOrder } from '../store';
+import { Link } from 'react-router-dom';
 
 class Checkout extends React.Component {
   constructor() {
@@ -47,27 +48,44 @@ class Checkout extends React.Component {
     const total = items.reduce((acc, curr) => {
       return acc + curr.quantity * curr.price;
     }, 0);
+    // if (items === []) {
+    //   let renderAll = false;
+    // } else {
+    //   let renderAll = true;
+    // }
+
     return (
       <div>
-        <p>total: ${total}</p>
-        {items.map((item) => {
-          return (
-            <div key={item.id}>
-              <p>{item.product.name}</p>
-              <p>{item.quantity}</p>
-              <p>Cost: {item.price}</p>
-            </div>
-          );
-        })}
-        <button
-          type='button'
-          onClick={async () => {
-            this.handleComplete(items);
-          }}
-        >
-          Confirm Order
-        </button>
-        <h2>{this.state.thankYou}</h2>
+        {items.length > 0 ? (
+          <div>
+            <p>total: ${total}</p>
+            {items.map((item) => {
+              return (
+                <div key={item.id}>
+                  <p>{item.product.name}</p>
+                  <p>{item.quantity}</p>
+                  <p>Cost: {item.price}</p>
+                </div>
+              );
+            })}
+            <button
+              type='button'
+              onClick={async () => {
+                this.handleComplete(items);
+              }}
+            >
+              Confirm Order
+            </button>
+            <h2>{this.state.thankYou}</h2>
+          </div>
+        ) : (
+          <div>
+            <h2>{this.state.thankYou}</h2>
+            <Link to={'/products'}>
+              <button>Continue Shopping</button>
+            </Link>
+          </div>
+        )}
       </div>
     );
   }
