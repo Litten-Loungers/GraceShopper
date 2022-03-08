@@ -43,24 +43,53 @@ form div {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.landingPage h1{
+  height: 4em;
+  width: 4em;
+  padding: 4em;
+  border: 1px solid red;
+  font-size: 2.5em;
+}
+
 .singleProduct {
   display: flex;
   flex-direction: row;
   height: auto;
-  width: 110em;
+  width: 110%;
   padding: 25px;
   margin: 15px;
-
-  /* margin-bottom: 1em;
-  margin-left: 1em; */
- 
+  justify-content: space-evenly;
 
   column-gap: 15em;
   border: 1px solid red;
 
   color: black;
-  background-color: antiquewhite;
+  background-color: rgb(196,196,196);
   font-family: 'Roboto', sans-serif;
+}
+
+.moviePic {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  text-align: center;
+  margin-right: auto
+}
+
+.movieTitle{
+  position: relative;
+  top: 4.5em;
+  left: 1em;
+  font-size: 2.25em;
+  color: black;
+}
+
+.movieTitle:hover{
+  color: blue;
+}
+
+.movieTitle:active{
+  color: blue;
 }
 
 .singleOrder{
@@ -72,7 +101,7 @@ form div {
 
   color: black;
   border: 1px solid red;
-  background-color: antiquewhite;
+  background-color: rgb(196,196,196);
   font-family: 'Roboto', sans-serif;
 }
 
@@ -82,33 +111,28 @@ form div {
   margin: 10px;
 
   display: flex;
-  flex-direction: column;
-  /* justify-content: space-around; */
+  flex-direction: row;
+  justify-content: center;
   border: 2px solid red;
 
+  text-align: center;
   color: black;
-  background-color: antiquewhite;
+  background-color: rgb(196,196,196);
   font-family: 'Roboto', sans-serif;
 }
 
 #personPhoto {
   height: 300px;
   width: auto;
+  margin-top: 20px;
 }
 
-.moviePic {
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: row;
-  text-align: center;
-  margin-right: auto
-}
 
-/* .moviePic > img {
- max-width: 100%;
+
+.moviePic > img {
+ width: 50%;
  height: auto;
-margin-left: 0.5em;
-} */
+}
 
 #poster{
   max-width: 50%;
@@ -127,6 +151,10 @@ margin-left: 0.5em;
   flex-direction: column;
   align-self: center;
   margin-left: auto;
+}
+
+.button, p{
+  font-size: 1.4em;
 }
 
 .routes {

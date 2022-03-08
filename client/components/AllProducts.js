@@ -27,14 +27,14 @@ class AllProducts extends React.Component {
             return (
               <div className="singleProduct" key={product.id}>
                 <div className="moviePic">
-                  <Link to={`/products/${product.id}`}>
-                    <img src={product.imageURL} />
-                    <p>{product.name}</p>
-                  </Link>
+                <Link to={`/products/${product.id}`}><img src={product.imageURL} />
+                </Link>
+                <Link to={`/products/${product.id}`}><p className="movieTitle">{product.name}</p></Link>
+        
                 </div>
 
                 <div className="button">
-                  <p>Price: {product.price}</p>
+                  <p>${product.price}</p>
                   {product.available ? (
                     <button
                       type="button"

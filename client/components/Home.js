@@ -2,11 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 export const Home = (props) => {
-  const { username } = props;
+  const { username, isAdmin } = props;
 
   return (
-    <div>
-      <h3>Welcome, {username}</h3>
+    <div className="landingPage">
+      {!isAdmin ? 
+      (<h1>Welcome, {username}</h1>
+      ) : 
+      (<h1>Welcome, administrator</h1>)}
+
     </div>
   );
 };
@@ -14,6 +18,7 @@ export const Home = (props) => {
 const mapState = (state) => {
   return {
     username: state.auth.username,
+    isAdmin: state.auth.type === 'ADMIN'
   };
 };
 
