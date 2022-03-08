@@ -10,9 +10,15 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   password: {
     type: Sequelize.STRING,
+    validate: {
+      notEmpty: true,
+    },
   },
   type: {
     type: Sequelize.ENUM('SHOPPER', 'ADMIN'),
