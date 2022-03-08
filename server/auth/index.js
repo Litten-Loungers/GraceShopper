@@ -14,6 +14,9 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
+    if (!req.body.username || !req.body.password) {
+      res.status(401).send('Please fill out both fields!');
+    }
     const newUser = { ...req.body, type: 'SHOPPER' };
     const user = await User.create(newUser);
 
