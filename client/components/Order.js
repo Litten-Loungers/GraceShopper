@@ -1,176 +1,100 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import auth from '../store/auth';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   fetchCartItems,
+  fetchLocalCartItems,
   addItemToCart,
+  addItemToLocalCart,
+  decItemFromLocalCart,
+  destroyLocalItem,
   destroyItem,
   decrementItem,
 } from '../store';
-import { Link } from 'react-router-dom';
 
-class Order extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      cartItems: [],
-    };
-  }
+export default function Order() {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cartItems);
+  const loggedIn = useSelector((state) => !!state.auth.id);
 
-  async componentDidMount() {
-    if (window.localStorage.getItem('token')) {
-      await this.props.fetchCartItems(this.props.userId);
-      this.setState({ cartItems: this.props.cartItems });
+  useEffect(() => {
+    if (loggedIn) {
+      dispatch(fetchCartItems());
     } else {
-      this.setState({
-        cartItems: [...JSON.parse(window.localStorage.getItem('guestCart'))],
-      });
+      dispatch(fetchLocalCartItems());
     }
-  }
+  }, []);
 
-  async handleDec(item) {
-    if (window.localStorage.getItem('token')) {
+  async function handleDec(item) {
+    if (loggedIn) {
+      console.log(item);
       if (item.quantity > 1) {
-        await this.props.decrementItem(item);
-        this.setState((prevState) => ({
-          cartItems: prevState.cartItems.map((lineItem) => {
-            if (lineItem.id === item.id) {
-              return {
-                ...lineItem,
-                quantity: lineItem.quantity - 1,
-              };
-            } else {
-              return lineItem;
-            }
-          }),
-        }));
+        dispatch(decrementItem(item));
       } else {
-        await this.props.destroyItem(item.id);
-        this.setState((prevState) => ({
-          cartItems: prevState.cartItems.filter(
-            (lineItem) => lineItem.id !== item.id
-          ),
-        }));
+        dispatch(destroyItem(item.id));
       }
     } else {
-      const guestCart = JSON.parse(window.localStorage.getItem('guestCart'));
-      const newCart = guestCart
-        .map((lineItem) => {
-          if (lineItem.id === item.id) {
-            return { ...lineItem, quantity: lineItem.quantity - 1 };
-          } else {
-            return lineItem;
-          }
-        })
-        .filter((lineItem) => lineItem.quantity > 0);
-      this.setState({ cartItems: [...newCart] });
-      window.localStorage.setItem('guestCart', JSON.stringify(newCart));
+      dispatch(decItemFromLocalCart(item));
     }
   }
 
-  async handleInc(item) {
-    if (window.localStorage.getItem('token')) {
-      await this.props.addItemToCart(item.product.id);
-      this.setState((prevState) => ({
-        cartItems: prevState.cartItems.map((lineItem) => {
-          if (lineItem.id === item.id) {
-            return { ...lineItem, quantity: lineItem.quantity + 1 };
-          } else {
-            return lineItem;
-          }
-        }),
-      }));
+  async function handleInc(item) {
+    if (loggedIn) {
+      dispatch(addItemToCart(item.product.id));
     } else {
-      const guestCart = JSON.parse(window.localStorage.getItem('guestCart'));
-      const newCart = guestCart.map((lineItem) => {
-        if (lineItem.id === item.id) {
-          return { ...lineItem, quantity: lineItem.quantity + 1 };
-        } else {
-          return lineItem;
-        }
-      });
-      this.setState({ cartItems: [...newCart] });
-      window.localStorage.setItem('guestCart', JSON.stringify(newCart));
+      dispatch(addItemToLocalCart(item.product));
     }
   }
 
-  async handleRemove(item) {
-    if (window.localStorage.getItem('token')) {
-      await this.props.destroyItem(item.id);
-      this.setState((prevState) => ({
-        cartItems: prevState.cartItems.filter(
-          (lineItem) => lineItem.id !== item.id
-        ),
-      }));
+  async function handleRemove(item) {
+    if (loggedIn) {
+      dispatch(destroyItem(item.id));
     } else {
-      const guestCart = JSON.parse(window.localStorage.getItem('guestCart'));
-      const newCart = guestCart.filter((lineItem) => lineItem.id !== item.id);
-      this.setState({ cartItems: [...newCart] });
-      window.localStorage.setItem('guestCart', JSON.stringify(newCart));
+      dispatch(destroyLocalItem(item));
     }
   }
 
-  render() {
-    const { cartItems } = this.state;
-    return (
-      <div>
-        {cartItems.map((item, idx) => {
-          return (
-            <div className="singleOrder" key={`id_${idx}`}>
-              <p>ORDER ID: {item.orderId}</p>
-              <p>ITEM QUANTITY: {item.quantity}</p>{' '}
-              <button
-                type="button"
-                onClick={async () => {
-                  this.handleDec(item);
-                }}
-              >
-                -
-              </button>
-              <button
-                type="button"
-                onClick={async () => {
-                  this.handleInc(item);
-                }}
-              >
-                +
-              </button>
-              <button
-                type="button"
-                onClick={async () => {
-                  this.handleRemove(item);
-                }}
-              >
-                Remove From Cart
-              </button>
-              <p>PRICE: {item.price}</p>
-              <Link to={`/products/${item.product.id}`}>
-                <p>Name: {item.product.name}</p>
-              </Link>
-              <img src={item.product.imageURL} />
-              <hr />
-            </div>
-          );
-        })}
-      </div>
-    );
-  }
+  return (
+    <div>
+      {cartItems.map((item) => {
+        console.log(item);
+        return (
+          <div className="singleOrder" key={`id_${item.id}`}>
+            <p>ORDER ID: {item.orderId}</p>
+            <p>ITEM QUANTITY: {item.quantity}</p>
+            <button
+              type="button"
+              onClick={async () => {
+                handleDec(item);
+              }}
+            >
+              -
+            </button>
+            <button
+              type="button"
+              onClick={async () => {
+                handleInc(item);
+              }}
+            >
+              +
+            </button>
+            <button
+              type="button"
+              onClick={async () => {
+                handleRemove(item);
+              }}
+            >
+              Remove From Cart
+            </button>
+            <p>PRICE: {item.price}</p>
+            {/* <Link to={`/products/5`}>
+              <p>Name: {item.product.name}</p>
+            </Link> */}
+            <img src={item.product.imageURL} />
+            <hr />
+          </div>
+        );
+      })}
+    </div>
+  );
 }
-
-const mapState = (state) => {
-  return {
-    cartItems: state.cartItems,
-    userId: state.auth.id,
-  };
-};
-
-const mapDispatch = (dispatch) => {
-  return {
-    fetchCartItems: (id) => dispatch(fetchCartItems(id)),
-    addItemToCart: (productId) => dispatch(addItemToCart(productId)),
-    destroyItem: (id) => dispatch(destroyItem(id)),
-    decrementItem: (item) => dispatch(decrementItem(item)),
-  };
-};
-
-export default connect(mapState, mapDispatch)(Order);
