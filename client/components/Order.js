@@ -23,7 +23,7 @@ export default function Order() {
     } else {
       dispatch(fetchLocalCartItems());
     }
-  }, []);
+  }, [loggedIn]);
 
   // useEffect(() => {
   //   if (loggedIn) {
