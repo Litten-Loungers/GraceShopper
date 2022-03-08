@@ -32,23 +32,10 @@ export default function SingleProduct() {
       {available ? (
         <button
           onClick={async () => {
-            if (window.localStorage.getItem('token')) {
+            if (loggedIn) {
               dispatch(addItemToCart(id));
             } else {
-              const cart = JSON.parse(window.localStorage.getItem('guestCart'));
-              const updateItem = cart.findIndex((item) => item.id === id);
-              if (updateItem >= 0) {
-                cart[updateItem].quantity++;
-              } else {
-                cart.push({
-                  id: id,
-                  quantity: 1,
-                  price: price,
-                  product: singleProduct,
-                });
-              }
-              const guestCart = JSON.stringify(cart);
-              window.localStorage.setItem('guestCart', guestCart);
+              dispatch(addItemToLocalCart(singleProduct));
             }
           }}
           type="button"
