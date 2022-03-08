@@ -27,33 +27,33 @@ class Routes extends Component {
     const { isLoggedIn } = this.props;
 
     return (
-      <div className='routes'>
+      <div className="routes">
         <Sidebar />
         {isLoggedIn ? (
           <Switch>
-            <Route path='/admin/users' component={Users} />
-            <Route path='/checkout' component={Checkout} />
-            <Route path='/cart' component={Order} />
-            <Route path='/testcartwidget' component={CartWidget} />
-            <Route path='/home' component={Home} />
+            <Route path="/admin/users" component={Users} />
+            <Route path="/checkout" component={Checkout} />
+            <Route path="/cart" component={Order} />
+            <Route path="/testcartwidget" component={CartWidget} />
+            <Route path="/home" component={Home} />
             <Route
-              path='/admin/products/:productId/edit'
+              path={'/admin/products/:productId/edit'}
               component={EditProductForm}
             />
-            <Route path='/products/:productId' component={SingleProduct} />
-            <Route path='/admin/products' component={AdminAllProducts} />
-            <Route path='/products' component={AllProducts} />
-            <Redirect to='/home' />
+            <Route path="/products/:productId" component={SingleProduct} />
+            <Route path="/admin/products" component={AdminAllProducts} />
+            <Route path="/products" component={AllProducts} />
+            <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>
-            <Route path='/checkout' component={Checkout} />
-            <Route path='/products/:productId' component={SingleProduct} />
-            <Route exact path='/products' component={AllProducts} />
-            <Route path='/' exact component={Login} />
-            <Route path='/cart' component={Order} />
-            <Route path='/login' component={Login} />
-            <Route path='/signup' component={Signup} />
+            <Route path="/checkout" component={Checkout} />
+            <Route path="/products/:productId" component={SingleProduct} />
+            <Route exact path="/products" component={AllProducts} />
+            <Route path="/" exact component={Login} />
+            <Route path="/cart" component={Order} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
           </Switch>
         )}
       </div>

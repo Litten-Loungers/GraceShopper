@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateProduct } from '../store';
+import { useParams } from 'react-router-dom';
+import { updateProduct, fetchProduct } from '../store';
 
 export default function EditProductForm() {
   const dispatch = useDispatch();
@@ -14,9 +15,15 @@ export default function EditProductForm() {
     available: true,
   });
 
+  const { productId } = useParams();
+
   useEffect(() => {
-    setProduct(singleProduct);
-  }, []);
+    if (!singleProduct.id) {
+      dispatch(fetchProduct(productId));
+    } else {
+      setProduct(singleProduct);
+    }
+  }, [singleProduct]);
 
   const handleChange = (evt) => {
     setProduct({
