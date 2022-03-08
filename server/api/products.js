@@ -26,14 +26,14 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-//POST single product
-// router.post('/', async (req, res, next) => {
-//   try {
-//     res.status(201).send(await Product.create(req.body));
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+// POST single product
+router.post('/', async (req, res, next) => {
+  try {
+    res.status(201).send(await Product.create(req.body));
+  } catch (error) {
+    next(error);
+  }
+});
 
 //DELETE single product
 router.delete('/:productId', requireToken, async (req, res, next) => {
