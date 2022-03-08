@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { updateProduct, fetchProduct } from '../store';
 
 export default function EditProductForm() {
@@ -15,12 +15,16 @@ export default function EditProductForm() {
     available: true,
   });
 
+  let history = useHistory();
   const { productId } = useParams();
 
   useEffect(() => {
-    if (!singleProduct.id) {
-      dispatch(fetchProduct(productId));
-    } else {
+    dispatch(fetchProduct(productId));
+  }, []);
+
+  useEffect(() => {
+    const keys = Object.keys(singleProduct);
+    if (keys.length > 0) {
       setProduct(singleProduct);
     }
   }, [singleProduct]);
@@ -35,6 +39,7 @@ export default function EditProductForm() {
   function handleSubmit(evt) {
     evt.preventDefault();
     dispatch(updateProduct(product.id, product));
+    history.push('/admin/products');
   }
 
   return (
