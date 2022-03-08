@@ -25,9 +25,16 @@ export default function Order() {
     }
   }, []);
 
-  async function handleDec(item) {
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     dispatch(fetchCartItems());
+  //   } else {
+  //     dispatch(fetchLocalCartItems());
+  //   }
+  // }, [cartItems]);
+
+  function handleDec(item) {
     if (loggedIn) {
-      console.log(item);
       if (item.quantity > 1) {
         dispatch(decrementItem(item));
       } else {
@@ -38,7 +45,7 @@ export default function Order() {
     }
   }
 
-  async function handleInc(item) {
+  function handleInc(item) {
     if (loggedIn) {
       dispatch(addItemToCart(item.product.id));
     } else {
@@ -46,7 +53,7 @@ export default function Order() {
     }
   }
 
-  async function handleRemove(item) {
+  function handleRemove(item) {
     if (loggedIn) {
       dispatch(destroyItem(item.id));
     } else {
@@ -57,9 +64,8 @@ export default function Order() {
   return (
     <div>
       {cartItems.map((item) => {
-        console.log(item);
         return (
-          <div className="singleOrder" key={`id_${item.id}`}>
+          <div className="singleOrder" key={item.id}>
             <p>ORDER ID: {item.orderId}</p>
             <p>ITEM QUANTITY: {item.quantity}</p>
             <button
@@ -87,9 +93,9 @@ export default function Order() {
               Remove From Cart
             </button>
             <p>PRICE: {item.price}</p>
-            {/* <Link to={`/products/5`}>
+            <Link to={`/products/${item.product.id}`}>
               <p>Name: {item.product.name}</p>
-            </Link> */}
+            </Link>
             <img src={item.product.imageURL} />
             <hr />
           </div>
