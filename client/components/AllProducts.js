@@ -18,26 +18,31 @@ class AllProducts extends React.Component {
   render() {
     const { products } = this.state;
     return (
-      <div className="all-products">
+      <div className='all-products'>
         {products
           .sort((x, y) => {
             return x.id - y.id;
           })
           .map((product) => {
             return (
-              <div className="singleProduct" key={product.id}>
-                <div className="moviePic">
-                <Link to={`/products/${product.id}`}><img src={product.imageURL} />
-                </Link>
-                <Link to={`/products/${product.id}`}><p className="movieTitle">{product.name}</p></Link>
-        
+              <div className='singleProduct' key={product.id}>
+                <div>
+                  <Link to={`/products/${product.id}`}>
+                    <img src={product.imageURL} />
+                  </Link>
                 </div>
-
-                <div className="button">
+                <div className='title-price'>
+                  <p>
+                    <Link to={`/products/${product.id}`}>
+                      <p className='movieTitle'>{product.name}</p>
+                    </Link>
+                  </p>
                   <p>${product.price}</p>
+                </div>
+                <div className='button'>
                   {product.available ? (
                     <button
-                      type="button"
+                      type='button'
                       onClick={async () => {
                         if (window.localStorage.getItem('token')) {
                           await this.props.addItemToCart(product.id);
