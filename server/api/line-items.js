@@ -150,6 +150,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
         orderId: order.id,
         id,
       },
+      include: { model: Product },
     });
     await lineItem.update(req.body);
     res.json(lineItem);
