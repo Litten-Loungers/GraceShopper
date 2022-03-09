@@ -6,6 +6,7 @@ import history from '../history';
  */
 const SET_PRODUCTS = 'SET_PRODUCTS';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
+const DELETE_PRODUCT = 'DELETE_PRODUCT';
 
 /**
  * ACTION CREATORS
@@ -13,6 +14,11 @@ const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 const setProducts = (products) => ({
   type: SET_PRODUCTS,
   products,
+});
+
+const deleteProduct = (product) => ({
+  type: DELETE_PRODUCT,
+  product,
 });
 
 const update = (product) => ({
@@ -53,6 +59,16 @@ export const purchaseProduct = (id, updates) => {
   };
 };
 
+export const destroyProduct = (product) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    await axios.delete(`/api/products/${product.id}`, {
+      headers: { authorization: token },
+    });
+    dispatch(deleteProduct(product));
+  };
+};
+
 export default function products(state = [], action) {
   switch (action.type) {
     case SET_PRODUCTS:
@@ -65,6 +81,8 @@ export default function products(state = [], action) {
           return product;
         }
       });
+    case DELETE_PRODUCT:
+      return state.filter((product) => product.id !== action.product.id);
     default:
       return state;
   }
