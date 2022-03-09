@@ -1,20 +1,8 @@
 const router = require('express').Router();
-const res = require('express/lib/response');
 const {
   models: { LineItem, Order, Product, User },
 } = require('../db');
-module.exports = router;
-
-const requireToken = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization;
-    const user = await User.findByToken(token);
-    req.user = user.dataValues;
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
+const { requireToken } = require('./middleware');
 
 //GET all lineItems
 // router.get('/', async (req, res, next) => {
@@ -165,3 +153,5 @@ router.put('/:id', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
+module.exports = router;

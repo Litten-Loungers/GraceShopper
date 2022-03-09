@@ -1,9 +1,4 @@
 const router = require('express').Router();
-const {
-  models: { User },
-} = require('../db');
-
-
 
 router.use('/line-items', require('./line-items'));
 router.use('/orders', require('./orders'));
@@ -16,4 +11,4 @@ router.use((req, res, next) => {
   next(error);
 });
 
-module.exports = router
+module.exports = router;
