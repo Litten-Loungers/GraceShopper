@@ -2,18 +2,7 @@ const router = require('express').Router();
 const {
   models: { User },
 } = require('../db');
-module.exports = router;
-
-const requireToken = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization;
-    const user = await User.findByToken(token);
-    req.user = user.dataValues;
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
+const { requireToken } = require('./middleware');
 
 router.get('/', requireToken, async (req, res, next) => {
   try {
@@ -40,3 +29,5 @@ router.get('/', requireToken, async (req, res, next) => {
 //     next(err);
 //   }
 // });
+
+module.exports = router;
