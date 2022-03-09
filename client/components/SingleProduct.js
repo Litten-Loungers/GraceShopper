@@ -38,7 +38,7 @@ export default function SingleProduct() {
               dispatch(addItemToLocalCart(singleProduct));
             }
           }}
-          type="button"
+          type='button'
         >
           Add To Cart
         </button>

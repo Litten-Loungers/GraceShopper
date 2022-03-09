@@ -6,6 +6,7 @@ import {
   completeOrder,
   fetchLocalCartItems,
 } from '../store';
+import { Link } from 'react-router-dom';
 
 export default function Checkout() {
   const dispatch = useDispatch();
@@ -38,32 +39,42 @@ export default function Checkout() {
     setThankYou('Order confirmed! Thank you for shopping with us!');
   }
 
+  const total = items.reduce((acc, curr) => {
+    return acc + curr.quantity * curr.price;
+  }, 0);
+
   return (
     <div>
-      <p>
-        total: $
-        {items.reduce((acc, curr) => {
-          return acc + curr.quantity * curr.price;
-        }, 0)}
-      </p>
-      {items.map((item) => {
-        return (
-          <div key={item.id}>
-            <p>{item.product.name}</p>
-            <p>{item.quantity}</p>
-            <p>Cost: {item.price}</p>
-          </div>
-        );
-      })}
-      <button
-        type="button"
-        onClick={async () => {
-          handleComplete(items);
-        }}
-      >
-        Confirm Order
-      </button>
-      <h2>{thankYou}</h2>
+      {items.length > 0 ? (
+        <div>
+          <p>Total: ${total}</p>
+          {items.map((item) => {
+            return (
+              <div key={item.id}>
+                <p>{item.product.name}</p>
+                <p>{item.quantity}</p>
+                <p>Cost: {item.price}</p>
+              </div>
+            );
+          })}
+          <button
+            type='button'
+            onClick={async () => {
+              handleComplete(items);
+            }}
+          >
+            Confirm Order
+          </button>
+          <h2>{thankYou}</h2>
+        </div>
+      ) : (
+        <div>
+          <h2>{thankYou}</h2>
+          <Link to={'/products'}>
+            <button>Continue Shopping</button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

@@ -29,7 +29,6 @@ class Routes extends Component {
 
     return (
       <div className='routes'>
-        <Sidebar />
         {isLoggedIn ? (
           isAdmin ? (
             <Switch>
@@ -51,7 +50,7 @@ class Routes extends Component {
               <Route path='/products/:productId' component={SingleProduct} />
               <Route path='/admin/products' component={AdminAllProducts} />
               <Route path='/products' component={AllProducts} />
-              <Redirect to='/home' />
+              <Redirect to='/products' />
             </Switch>
           ) : (
             <Switch>
@@ -61,7 +60,7 @@ class Routes extends Component {
               <Route path='/home' component={Home} />
               <Route path='/products/:productId' component={SingleProduct} />
               <Route path='/products' component={AllProducts} />
-              <Redirect to='/home' />
+              <Redirect to='/products' />
             </Switch>
           )
         ) : (
@@ -69,7 +68,7 @@ class Routes extends Component {
             <Route path='/checkout' component={Checkout} />
             <Route path='/products/:productId' component={SingleProduct} />
             <Route exact path='/products' component={AllProducts} />
-            <Route path='/' exact component={Login} />
+            <Route path='/' exact component={AllProducts} />
             <Route path='/cart' component={Order} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />

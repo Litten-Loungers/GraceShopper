@@ -25,14 +25,6 @@ export default function Order() {
     }
   }, [loggedIn]);
 
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     dispatch(fetchCartItems());
-  //   } else {
-  //     dispatch(fetchLocalCartItems());
-  //   }
-  // }, [cartItems]);
-
   function handleDec(item) {
     if (loggedIn) {
       if (item.quantity > 1) {
@@ -63,13 +55,16 @@ export default function Order() {
 
   return (
     <div>
+      <Link to='/checkout'>
+        <button>Check Out</button>
+      </Link>
       {cartItems.map((item) => {
         return (
-          <div className="singleOrder" key={item.id}>
+          <div className='singleOrder' key={item.id}>
             <p>ORDER ID: {item.orderId}</p>
             <p>ITEM QUANTITY: {item.quantity}</p>
             <button
-              type="button"
+              type='button'
               onClick={async () => {
                 handleDec(item);
               }}
@@ -77,7 +72,7 @@ export default function Order() {
               -
             </button>
             <button
-              type="button"
+              type='button'
               onClick={async () => {
                 handleInc(item);
               }}
@@ -85,7 +80,7 @@ export default function Order() {
               +
             </button>
             <button
-              type="button"
+              type='button'
               onClick={async () => {
                 handleRemove(item);
               }}
