@@ -1,9 +1,8 @@
 const router = require('express').Router();
-const res = require('express/lib/response');
+
 const {
   models: { Order },
 } = require('../db');
-module.exports = router;
 
 //GET all orders
 // router.get('/', async (req, res, next) => {
@@ -48,3 +47,5 @@ module.exports = router;
 //     next(err);
 //   }
 // });
+
+module.exports = router;

@@ -1,20 +1,8 @@
 const router = require('express').Router();
-const res = require('express/lib/response');
 const {
   models: { LineItem, Order, Product, User },
 } = require('../db');
-module.exports = router;
-
-const requireToken = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization;
-    const user = await User.findByToken(token);
-    req.user = user.dataValues;
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
+const { requireToken } = require('./middleware');
 
 //GET all lineItems
 // router.get('/', async (req, res, next) => {
@@ -112,8 +100,15 @@ router.post('/add-to-cart/:productId', requireToken, async (req, res, next) => {
         orderId: cart.id,
         productId,
       },
+      include: {
+        model: Product,
+      },
     });
-    await item.update({ quantity: item.quantity + 1, price: product.price });
+    await item.update({
+      quantity: item.quantity + 1,
+      price: product.price,
+      product: product,
+    });
     res.json([item, created]);
   } catch (err) {
     next(err);
@@ -150,6 +145,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
         orderId: order.id,
         id,
       },
+      include: { model: Product },
     });
     await lineItem.update(req.body);
     res.json(lineItem);
@@ -157,3 +153,5 @@ router.put('/:id', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
+module.exports = router;
