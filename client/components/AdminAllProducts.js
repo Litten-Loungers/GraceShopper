@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -41,7 +40,7 @@ export default function AdminAllProducts() {
                 </Link>
                 <button
                   type="button"
-                  onClick={() => dispatch(destroyProduct(product.id))}
+                  onClick={() => dispatch(destroyProduct(product))}
                 >
                   Remove
                 </button>
