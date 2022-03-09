@@ -14,39 +14,51 @@ export default function AdminAllProducts() {
   return (
     <div>
       <div>
-        <h3>Admin / Manage Products: </h3>
-      </div>
-      <div>
-        <Link to={'/admin/products/add'}>
-          <button>Add Product</button>
-        </Link>
-      </div>
-      <hr />
-      <div className="all-products">
-        {products
-          .sort((x, y) => {
-            return x.id - y.id;
-          })
-          .map((product) => {
-            return (
-              <div key={product.id}>
-                <h2>Name: {product.name}</h2>
-                <img src={product.imageURL} />
-                <p>Price: $ {product.price}</p>
-                <p>{product.description}</p>
-                <p>Quantity: {product.quantity}</p>
-                <Link to={`/admin/products/${product.id}/edit`}>
-                  <button>Edit</button>
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => dispatch(destroyProduct(product))}
-                >
-                  Remove
-                </button>
-              </div>
-            );
-          })}
+        <div>
+          <h3>Admin / Manage Products: </h3>
+        </div>
+        <div>
+          <Link to={'/admin/products/add'}>
+            <button>Add Product</button>
+          </Link>
+        </div>
+        <hr />
+        <div className="all-products">
+          {products
+            .sort((x, y) => {
+              return x.id - y.id;
+            })
+            .map((product) => {
+              return (
+                <div className="single-tile" key={product.id}>
+                  <div>
+                    <h2>{product.name}</h2>
+                  </div>
+                  <div>
+                    <img className="poster-image" src={product.imageURL} />
+                  </div>
+                  <div>{product.description}</div>
+                  <div>
+                    <b>Price:</b> $ {product.price}
+                  </div>
+                  <div>
+                    <b>Quantity:</b> {product.quantity}
+                  </div>
+                  <div className="button-div">
+                    <Link to={`/admin/products/${product.id}/edit`}>
+                      <button>Edit</button>
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => dispatch(destroyProduct(product))}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
       </div>
     </div>
   );

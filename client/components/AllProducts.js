@@ -11,28 +11,29 @@ export default function AllProducts() {
     dispatch(fetchProducts());
   }, []);
   return (
-    <div className="all-products">
+    <div className='all-products'>
       {products
         .sort((x, y) => {
           return x.id - y.id;
         })
         .map((product) => {
           return (
-            <div className="singleProduct" key={product.id}>
-              <div className="moviePic">
+            <div className='single-tile' key={product.id}>
+              <div>
                 <Link to={`/products/${product.id}`}>
-                  <img src={product.imageURL} />
-                </Link>
-                <Link to={`/products/${product.id}`}>
-                  <p className="movieTitle">{product.name}</p>
+                  <img className='poster-image' src={product.imageURL} />
                 </Link>
               </div>
-
-              <div className="button">
-                <p>${product.price}</p>
+              <div>
+                <Link to={`/products/${product.id}`}>
+                  <b>{product.name}</b>
+                </Link>
+              </div>
+              <div>${product.price}</div>
+              <div className='button'>
                 {product.available ? (
                   <button
-                    type="button"
+                    type='button'
                     onClick={async () => {
                       if (loggedIn) {
                         dispatch(addItemToCart(product.id));

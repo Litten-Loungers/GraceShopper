@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchCartItems, fetchLocalCartItems } from '../store';
 import { useSelector, useDispatch } from 'react-redux';
+import { CgShoppingCart } from 'react-icons/cg';
 
 export default function CartWidget() {
   const dispatch = useDispatch();
@@ -15,8 +16,10 @@ export default function CartWidget() {
     }
   }, [loggedIn]);
   return (
-    <Link to="/cart">
-      <div>Items in cart: {cartCount}</div>
+    <Link to='/cart'>
+      <div>
+        <CgShoppingCart className='cart-icon' /> {cartCount}
+      </div>
     </Link>
   );
 }
