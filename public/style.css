@@ -1,13 +1,44 @@
 body {
   font-family: 'Roboto', sans-serif;
 }
-
+div {
+  color: rgb(189, 189, 189);
+  padding: 2px;
+}
 a {
+  color: honeydew;
   text-decoration: none;
+}
+a:hover {
+  color: rgb(192, 141, 0);
+}
+
+#main-div {
+  background-image: linear-gradient(rgb(7, 7, 7), rgba(19, 8, 78, 0.877));
+}
+
+#site-name-div {
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  content: center;
+}
+
+#site-name {
+  font-family: 'Audiowide', sans-serif;
+  color: rgba(247, 204, 65, 0.856);
+}
+.sign-in-form {
+  display: flex;
+  justify-content: center;
 }
 
 label {
   display: block;
+}
+
+.dark-font {
+  color: rgb(37, 37, 37);
 }
 
 nav {
@@ -18,11 +49,12 @@ nav {
     rgb(80, 66, 19)
   );
   height: 8em;
-  width: 100vw;
-
-  border: 2px solid black;
-  padding: 0.5em;
-  margin-bottom: 0.6em;
+  box-shadow: 0px 5px 10px rgba(247, 204, 65, 0.856);
+  z-index: 5;
+  /* width: 100%; */
+  /* border: 2px solid black; */
+  /* padding: 0.5em; */
+  /* margin-bottom: 0.6em; */
 }
 
 nav h1 {
@@ -37,34 +69,43 @@ nav a {
 
 form div {
   margin: 1em;
-  display: inline-block;
+  /* display: inline-block; */
 }
 
-.landingPage h1 {
+.signed-in-bar {
+  height: auto;
+  width: auto;
+  display: flex;
+  justify-content: end;
+  background-color: rgba(247, 204, 65, 0.856);
+}
+
+/* .landingPage h1 {
   height: 4em;
   width: 4em;
   padding: 4em;
   border: 1px solid red;
   font-size: 2.5em;
-}
+} */
 .all-products {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
   flex-direction: row;
   flex-wrap: wrap;
-  background-image: linear-gradient(rgb(7, 7, 7), rgba(19, 8, 78, 0.877));
+
   /* color: rgb(65, 62, 62); */
   font-family: Arial, Helvetica, sans-serif;
   border: 1px solid black;
   padding: 5px;
+  z-index: 1;
 }
 
-.singleProduct {
-  width: 20%;
+.single-tile {
+  width: 15%;
   border: 1px solid black;
   display: flex;
-  padding: 15px;
+  padding: 10px;
   flex-direction: column;
   align-items: center;
   background-image: linear-gradient(
@@ -92,6 +133,11 @@ form div {
   font-family: 'Roboto', sans-serif; */
 }
 
+.poster-image {
+  width: 100%;
+  height: auto;
+}
+
 .moviePic {
   display: flex;
   border: 1px solid black;
@@ -101,10 +147,13 @@ form div {
   text-align: center;
   margin-right: auto; */
 }
+.button-div {
+  display: flex;
+  gap: 10px;
+}
 
 .button {
   display: flex;
-  border: 1px solid black;
   padding: 5px;
   /* text-align: center;
   flex-direction: column;
@@ -126,14 +175,6 @@ form div {
   flex-direction: row;
   border: 1px solid black;
   padding: 5px;
-}
-
-.movieTitle:hover {
-  color: blue;
-}
-
-.movieTitle:active {
-  color: blue;
 }
 
 .singleOrder {

@@ -25,20 +25,18 @@ class AllProducts extends React.Component {
           })
           .map((product) => {
             return (
-              <div className='singleProduct' key={product.id}>
+              <div className='single-tile' key={product.id}>
                 <div>
                   <Link to={`/products/${product.id}`}>
-                    <img src={product.imageURL} />
+                    <img className='poster-image' src={product.imageURL} />
                   </Link>
                 </div>
-                <div className='title-price'>
-                  <p>
-                    <Link to={`/products/${product.id}`}>
-                      <p className='movieTitle'>{product.name}</p>
-                    </Link>
-                  </p>
-                  <p>${product.price}</p>
+                <div>
+                  <Link to={`/products/${product.id}`}>
+                    <b>{product.name}</b>
+                  </Link>
                 </div>
+                <div>${product.price}</div>
                 <div className='button'>
                   {product.available ? (
                     <button

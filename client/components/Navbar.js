@@ -6,8 +6,19 @@ import CartWidget from './CartWidget';
 
 const Navbar = ({ handleClick, isLoggedIn, isAdmin, username }) => (
   <div>
+    <div className='signed-in-bar'>
+      {isLoggedIn ? (
+        <div className='dark-font'>
+          <h4>Signed in as: {username}</h4>
+        </div>
+      ) : (
+        <></>
+      )}
+    </div>
     <nav>
-      <h1>POSTER MASTER</h1>
+      <div id='site-name-div'>
+        <h1 id='site-name'>POSTER MASTER</h1>
+      </div>
       {isLoggedIn ? (
         <div>
           <Link to='/products'>All Posters</Link>
@@ -33,15 +44,6 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin, username }) => (
         </div>
       )}
     </nav>
-    <div>
-      {isLoggedIn ? (
-        <div>
-          <h4>Signed in as: {username}</h4>
-        </div>
-      ) : (
-        <></>
-      )}
-    </div>
   </div>
 );
 
