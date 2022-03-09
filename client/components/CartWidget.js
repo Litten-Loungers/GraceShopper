@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchCartItems } from '../store';
+import { CgShoppingCart } from 'react-icons/cg';
 
 class CartWidget extends React.Component {
   constructor() {
@@ -26,14 +27,20 @@ class CartWidget extends React.Component {
   render() {
     if (window.localStorage.getItem('token')) {
       return (
-        <Link to="/cart">
-          <div>Items in cart: {this.props.cartItems.length}</div>
+        <Link to='/cart'>
+          <div>
+            <CgShoppingCart className='cart-icon' />
+            {this.props.cartItems.length}
+          </div>
         </Link>
       );
     } else {
       return (
-        <Link to="/cart">
-          <div>Items in cart: {this.state.cartItems.length}</div>
+        <Link to='/cart'>
+          <div>
+            <CgShoppingCart className='cart-icon' />
+            {this.state.cartItems.length}
+          </div>
         </Link>
       );
     }

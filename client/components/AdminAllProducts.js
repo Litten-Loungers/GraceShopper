@@ -46,7 +46,7 @@ class AdminAllProducts extends React.Component {
                     <h2>{product.name}</h2>
                   </div>
                   <div>
-                    <img src={product.imageURL} />
+                    <img className='poster-image' src={product.imageURL} />
                   </div>
                   <div>{product.description}</div>
                   <div>

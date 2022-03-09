@@ -64,7 +64,7 @@ class SingleProduct extends React.Component {
                 window.localStorage.setItem('guestCart', guestCart);
               }
             }}
-            type="button"
+            type='button'
           >
             Add To Cart
           </button>
